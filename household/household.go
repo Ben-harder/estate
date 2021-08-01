@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func NewHousehold(memberNames []string) (Household, error) {
+func NewHousehold(memberNames []string) (HouseholdInterface, error) {
 	if len(memberNames) < 1 {
 		return nil, fmt.Errorf("please supply at least one household member")
 	}
@@ -14,8 +14,9 @@ func NewHousehold(memberNames []string) (Household, error) {
 	return &household{members: newMemberList(memberNames)}, nil
 }
 
-type Household interface {
+type HouseholdInterface interface {
 	PrintHouseholdMembers()
+	String() string
 }
 
 type household struct {
@@ -24,4 +25,8 @@ type household struct {
 
 func (hHold *household) PrintHouseholdMembers() {
 	fmt.Println(hHold.members.string())
+}
+
+func (hHold *household) String() string {
+	return hHold.members.string()
 }
