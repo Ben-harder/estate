@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -22,6 +23,10 @@ type server struct {
 
 func (svr *server) ListenAndServe() {
 	log.Println("Starting server on port", svr.port)
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello and welcome to the Estate")
+	})
 
 	err := http.ListenAndServe(":"+svr.port, nil)
 	if err != nil {
