@@ -6,10 +6,10 @@ import (
 )
 
 func newMemberList(memberNames []string) memberListInterface {
-	newMemberList := &memberList{members: make([]*member, 0)}
+	newMemberList := &memberList{members: make([]memberInterface, 0)}
 	for _, m := range memberNames {
 		firstName, lastName := cleanName(m)
-		newMember := &member{firstName: firstName, lastName: lastName}
+		newMember := newMember(firstName, lastName)
 		newMemberList.members = append(newMemberList.members, newMember)
 	}
 	newMemberList.sort()
@@ -22,7 +22,7 @@ type memberListInterface interface {
 }
 
 type memberList struct {
-	members []*member
+	members []memberInterface
 }
 
 func (mList *memberList) sort() {
