@@ -3,7 +3,14 @@ package schedule
 import (
 	"container/list"
 	"time"
+
+	"github.com/Ben-harder/estate/household"
 )
+
+func NewSchedule(household household.HouseholdInterface) ScheduleInterface {
+	schedule := &schedule{household: household}
+	return schedule
+}
 
 type ScheduleInterface interface {
 	NextJob() (string, string)
@@ -12,12 +19,18 @@ type ScheduleInterface interface {
 }
 
 type schedule struct {
-	jobs *list.List
+	jobs      *list.List
+	household household.HouseholdInterface
+	whoseTurn string
 }
 
 func (sch *schedule) NextJob() (responsibilities string, date string) {
 	job := sch.jobs.Front().Value.(*job)
 	return string(job.responsibilities), job.date.String()
+}
+
+func (sch *schedule) SetTurn(name string) {
+
 }
 
 func (sch *schedule) nextJob() *job {

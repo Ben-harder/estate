@@ -30,3 +30,16 @@ func (hHold *household) PrintHouseholdMembers() {
 func (hHold *household) String() string {
 	return hHold.members.string()
 }
+
+// Finds the next member of the household in alphabetical order
+func (hHold *household) Next(name string) (string, error) {
+	mem, err := hHold.members.getMember(name)
+	if err != nil {
+		return "", err
+	}
+	nextMember, err := hHold.members.next(mem)
+	if err != nil {
+		return "", err
+	}
+	return nextMember.string(), nil
+}

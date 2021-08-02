@@ -1,15 +1,14 @@
 package household
 
 import (
+	"fmt"
 	"sort"
-	"strings"
 )
 
 func newMemberList(memberNames []string) memberListInterface {
 	newMemberList := &memberList{members: make([]memberInterface, 0)}
-	for _, m := range memberNames {
-		firstName, lastName := cleanName(m)
-		newMember := newMember(firstName, lastName)
+	for _, name := range memberNames {
+		newMember := newMember(name)
 		newMemberList.members = append(newMemberList.members, newMember)
 	}
 	newMemberList.sort()
@@ -19,6 +18,8 @@ func newMemberList(memberNames []string) memberListInterface {
 type memberListInterface interface {
 	sort()
 	string() string
+	next(member memberInterface) (memberInterface, error)
+	getMember(name string) (memberInterface, error)
 }
 
 type memberList struct {
@@ -39,13 +40,37 @@ func (mList *memberList) string() string {
 	return str
 }
 
-func cleanName(name string) (string, string) {
-	trimmed := strings.TrimSpace(name)
-	titled := strings.Title(trimmed)
-	split := make([]string, 0)
-	split = strings.Split(titled, " ")
-	if len(split) > 1 {
-		return split[0], split[len(split)-1]
+func (mList *memberList) getMember(name string) (memberInterface, error) {
+	mem := newMember(name)
+	i, err := mList.indexOf(mem)
+	if err != nil {
+		return nil, err
+	} else {
+		return mList.members[i], nil
 	}
-	return split[0], ""
+}
+
+func (mList *memberList) next(member memberInterface) (memberInterface, error) {
+	currIndex, err := mList.indexOf(member)
+	if err != nil {
+		return nil, err
+	}
+	if currIndex == (mList.length() - 1) {
+		return mList.members[0], nil
+	} else {
+		return mList.members[currIndex+1], nil
+	}
+}
+
+func (mList *memberList) indexOf(member memberInterface) (int, error) {
+	for i, mem := range mList.members {
+		if mem.equals(member) {
+			return i, nil
+		}
+	}
+	return -1, fmt.Errorf("household member not found. Name: %s", member.string())
+}
+
+func (mList *memberList) length() int {
+	return len(mList.members)
 }
