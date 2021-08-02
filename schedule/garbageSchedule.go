@@ -1,7 +1,10 @@
 package schedule
 
+import "container/list"
+
 func NewGarbageSchedule(pathToSchedule string) (ScheduleInterface, error) {
 	sch := &schedule{}
+	sch.jobs = list.New()
 	err := sch.parseEvents(pathToSchedule)
 	if err != nil {
 		return nil, err
@@ -14,10 +17,12 @@ type garbageSchedule struct {
 }
 
 func (sch *schedule) parseEvents(path string) error {
-	var err error
-	sch.jobs, err = parseICS("schedule/schedule.ics")
+	jobs, err := parseICS("schedule/schedule.ics")
 	if err != nil {
 		return err
+	}
+	for _, job := range jobs {
+		sch.jobs.PushBack(job)
 	}
 	return nil
 }
