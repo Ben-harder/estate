@@ -17,6 +17,6 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to create household. err: ", err)
 	}
-	svr := server.NewHouseholdServer(8080, theEstate)
+	svr := server.NewHouseholdServer(80, theEstate)
 	svr.ListenAndServe()
 }

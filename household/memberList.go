@@ -3,6 +3,7 @@ package household
 import (
 	"fmt"
 	"sort"
+	"strings"
 )
 
 func newMemberList(memberNames []string) memberListInterface {
@@ -38,6 +39,7 @@ func (mList *memberList) string() string {
 	for _, member := range mList.members {
 		str = str + member.string() + ", "
 	}
+	str = strings.Trim(str, ", ")
 	return str
 }
 
