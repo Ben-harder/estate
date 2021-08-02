@@ -18,6 +18,7 @@ func newMemberList(memberNames []string) memberListInterface {
 type memberListInterface interface {
 	sort()
 	string() string
+	first() memberInterface
 	next(member memberInterface) (memberInterface, error)
 	getMember(name string) (memberInterface, error)
 }
@@ -35,9 +36,13 @@ func (mList *memberList) sort() {
 func (mList *memberList) string() string {
 	str := ""
 	for _, member := range mList.members {
-		str = str + member.string() + " "
+		str = str + member.string() + ", "
 	}
 	return str
+}
+
+func (mList *memberList) first() memberInterface {
+	return mList.members[0]
 }
 
 func (mList *memberList) getMember(name string) (memberInterface, error) {

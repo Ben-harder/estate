@@ -2,18 +2,20 @@ package schedule
 
 import (
 	"container/list"
+	"strings"
 	"time"
 
 	"github.com/Ben-harder/estate/household"
 )
 
 func NewSchedule(household household.HouseholdInterface) ScheduleInterface {
-	schedule := &schedule{household: household}
+	schedule := &schedule{household: household, whoseTurn: household.First()}
 	return schedule
 }
 
 type ScheduleInterface interface {
-	NextJob() (string, string)
+	NextJob() (string, string, string)
+	SetTurn(name string)
 	checkNextJob()
 	nextJob() *job
 }
@@ -24,13 +26,13 @@ type schedule struct {
 	whoseTurn string
 }
 
-func (sch *schedule) NextJob() (responsibilities string, date string) {
+func (sch *schedule) NextJob() (responsibilities string, date string, whoseTurn string) {
 	job := sch.jobs.Front().Value.(*job)
-	return string(job.responsibilities), job.date.String()
+	return string(job.responsibilities), strings.Split(job.date.String(), " ")[0], sch.whoseTurn
 }
 
 func (sch *schedule) SetTurn(name string) {
-
+	sch.whoseTurn = name
 }
 
 func (sch *schedule) nextJob() *job {
@@ -46,5 +48,6 @@ func (sch *schedule) checkNextJob() {
 	nextJobDay := nextJob.date.YearDay()
 	if nowDay > nextJobDay {
 		sch.jobs.Remove(sch.jobs.Front())
+		sch.household.Next(sch.whoseTurn)
 	}
 }

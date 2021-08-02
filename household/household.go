@@ -17,6 +17,8 @@ func NewHousehold(memberNames []string) (HouseholdInterface, error) {
 type HouseholdInterface interface {
 	PrintHouseholdMembers()
 	String() string
+	Next(name string) (string, error)
+	First() string
 }
 
 type household struct {
@@ -42,4 +44,8 @@ func (hHold *household) Next(name string) (string, error) {
 		return "", err
 	}
 	return nextMember.string(), nil
+}
+
+func (hHold *household) First() string {
+	return hHold.members.first().string()
 }
