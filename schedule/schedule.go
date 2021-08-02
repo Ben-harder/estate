@@ -16,7 +16,7 @@ func NewSchedule(household household.HouseholdInterface) ScheduleInterface {
 type ScheduleInterface interface {
 	NextJob() (string, string, string)
 	SetTurn(name string)
-	checkNextJob()
+	CheckNextJob()
 	nextJob() *job
 }
 
@@ -41,7 +41,7 @@ func (sch *schedule) nextJob() *job {
 }
 
 // Removes next job if it's a day passed
-func (sch *schedule) checkNextJob() {
+func (sch *schedule) CheckNextJob() {
 	now := time.Now()
 	nowDay := now.YearDay()
 	nextJob := sch.nextJob()
@@ -49,5 +49,20 @@ func (sch *schedule) checkNextJob() {
 	if nowDay > nextJobDay {
 		sch.jobs.Remove(sch.jobs.Front())
 		sch.household.Next(sch.whoseTurn)
+	}
+}
+
+func (sch *schedule) deletePassedJobs() {
+	oldJobsExist := true
+	now := time.Now()
+	nowDay := now.YearDay()
+	for oldJobsExist {
+		nextJob := sch.nextJob()
+		nextJobDay := nextJob.date.YearDay()
+		if nowDay > nextJobDay {
+			sch.jobs.Remove(sch.jobs.Front())
+		} else {
+			oldJobsExist = false
+		}
 	}
 }

@@ -13,6 +13,7 @@ func NewGarbageSchedule(household household.HouseholdInterface, pathToSchedule s
 	if err != nil {
 		return nil, err
 	}
+	sch.deletePassedJobs()
 	return sch, nil
 }
 

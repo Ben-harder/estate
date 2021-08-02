@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/Ben-harder/estate/household"
 	"github.com/Ben-harder/estate/schedule"
@@ -37,6 +38,16 @@ func (svr *householdServer) ListenAndServe() {
 	log.Println("Starting server on port", svr.port)
 
 	job, date, whoseTurn := svr.schedule.NextJob()
+
+	checkJobs := time.NewTicker(4 * time.Hour)
+	go func() {
+		for {
+			select {
+			case <-checkJobs.C:
+				svr.schedule.CheckNextJob()
+			}
+		}
+	}()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
