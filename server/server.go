@@ -39,7 +39,16 @@ func (svr *householdServer) ListenAndServe() {
 	job, date, whoseTurn := svr.schedule.NextJob()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello and welcome to the Estate")
+		if r.URL.Path != "/" {
+			http.Error(w, "404 not found.", http.StatusNotFound)
+			return
+		}
+
+		if r.Method != "GET" {
+			http.Error(w, "Method is not supported.", http.StatusNotFound)
+			return
+		}
+		fmt.Fprintln(w, "Hello and welcome to The Estate")
 		fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
 		fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
 	})
