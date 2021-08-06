@@ -26,6 +26,7 @@ func NewHouseholdServer(port int, household household.HouseholdInterface) Househ
 
 type HouseholdServerInterface interface {
 	ListenAndServe()
+	mainPageHandler(w http.ResponseWriter, r *http.Request)
 }
 
 type householdServer struct {
@@ -37,8 +38,6 @@ type householdServer struct {
 func (svr *householdServer) ListenAndServe() {
 	log.Println("Starting server on port", svr.port)
 
-	job, date, whoseTurn := svr.schedule.NextJob()
-
 	checkJobs := time.NewTicker(4 * time.Hour)
 	go func() {
 		for {
@@ -49,23 +48,26 @@ func (svr *householdServer) ListenAndServe() {
 		}
 	}()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.Error(w, "404 not found.", http.StatusNotFound)
-			return
-		}
-
-		if r.Method != "GET" {
-			http.Error(w, "Method is not supported.", http.StatusNotFound)
-			return
-		}
-		fmt.Fprintln(w, "Hello and welcome to The Estate")
-		fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
-		fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
-	})
+	http.HandleFunc("/", svr.mainPageHandler)
 
 	err := http.ListenAndServe(":"+svr.port, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "GET" {
+		http.Error(w, "Method is not supported.", http.StatusNotFound)
+		return
+	}
+	job, date, whoseTurn := svr.schedule.NextJob()
+	fmt.Fprintln(w, "Hello and welcome to The Estate")
+	fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
+	fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
 }
