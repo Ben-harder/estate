@@ -17,7 +17,7 @@ func NewHousehold(memberNames []string) (HouseholdInterface, error) {
 type HouseholdInterface interface {
 	PrintHouseholdMembers()
 	String() string
-	Next(name string) (string, error)
+	MemberAfter(name string) (string, error)
 	First() string
 }
 
@@ -34,7 +34,7 @@ func (hHold *household) String() string {
 }
 
 // Finds the next member of the household in alphabetical order
-func (hHold *household) Next(name string) (string, error) {
+func (hHold *household) MemberAfter(name string) (string, error) {
 	mem, err := hHold.members.getMember(name)
 	if err != nil {
 		return "", err
@@ -43,9 +43,9 @@ func (hHold *household) Next(name string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return nextMember.string(), nil
+	return nextMember.String(), nil
 }
 
 func (hHold *household) First() string {
-	return hHold.members.first().string()
+	return hHold.members.first().String()
 }

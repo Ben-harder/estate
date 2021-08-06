@@ -26,6 +26,7 @@ type schedule struct {
 	whoseTurn string
 }
 
+// NextJob returns a schedules upcoming job's responsibilities and date.
 func (sch *schedule) NextJob() (responsibilities string, date string, whoseTurn string) {
 	job := sch.jobs.Front().Value.(*job)
 	return string(job.responsibilities), strings.Split(job.date.String(), " ")[0], sch.whoseTurn
@@ -48,7 +49,7 @@ func (sch *schedule) CheckNextJob() {
 	nextJobDay := nextJob.date.YearDay()
 	if nowDay > nextJobDay {
 		sch.jobs.Remove(sch.jobs.Front())
-		sch.household.Next(sch.whoseTurn)
+		sch.household.MemberAfter(sch.whoseTurn)
 	}
 }
 

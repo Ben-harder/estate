@@ -2,14 +2,14 @@ package household
 
 import "strings"
 
-func newMember(name string) memberInterface {
+func newMember(name string) MemberInterface {
 	firstName, lastName := cleanName(name)
 	return &member{firstName: firstName, lastName: lastName}
 }
 
-type memberInterface interface {
-	string() string
-	equals(member memberInterface) bool
+type MemberInterface interface {
+	String() string
+	equals(member MemberInterface) bool
 }
 
 type member struct {
@@ -17,12 +17,12 @@ type member struct {
 	lastName  string
 }
 
-func (mem *member) string() string {
+func (mem *member) String() string {
 	return mem.firstName + " " + mem.lastName
 }
 
-func (mem *member) equals(otherMember memberInterface) bool {
-	if mem.string() == otherMember.string() {
+func (mem *member) equals(otherMember MemberInterface) bool {
+	if mem.String() == otherMember.String() {
 		return true
 	} else {
 		return false

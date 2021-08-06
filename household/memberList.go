@@ -7,7 +7,7 @@ import (
 )
 
 func newMemberList(memberNames []string) memberListInterface {
-	newMemberList := &memberList{members: make([]memberInterface, 0)}
+	newMemberList := &memberList{members: make([]MemberInterface, 0)}
 	for _, name := range memberNames {
 		newMember := newMember(name)
 		newMemberList.members = append(newMemberList.members, newMember)
@@ -19,35 +19,35 @@ func newMemberList(memberNames []string) memberListInterface {
 type memberListInterface interface {
 	sort()
 	string() string
-	first() memberInterface
-	next(member memberInterface) (memberInterface, error)
-	getMember(name string) (memberInterface, error)
+	first() MemberInterface
+	next(member MemberInterface) (MemberInterface, error)
+	getMember(name string) (MemberInterface, error)
 }
 
 type memberList struct {
-	members []memberInterface
+	members []MemberInterface
 }
 
 func (mList *memberList) sort() {
 	sort.Slice(mList.members, func(i, j int) bool {
-		return mList.members[i].string() < mList.members[j].string()
+		return mList.members[i].String() < mList.members[j].String()
 	})
 }
 
 func (mList *memberList) string() string {
 	str := ""
 	for _, member := range mList.members {
-		str = str + member.string() + ", "
+		str = str + member.String() + ", "
 	}
 	str = strings.Trim(str, ", ")
 	return str
 }
 
-func (mList *memberList) first() memberInterface {
+func (mList *memberList) first() MemberInterface {
 	return mList.members[0]
 }
 
-func (mList *memberList) getMember(name string) (memberInterface, error) {
+func (mList *memberList) getMember(name string) (MemberInterface, error) {
 	mem := newMember(name)
 	i, err := mList.indexOf(mem)
 	if err != nil {
@@ -57,7 +57,7 @@ func (mList *memberList) getMember(name string) (memberInterface, error) {
 	}
 }
 
-func (mList *memberList) next(member memberInterface) (memberInterface, error) {
+func (mList *memberList) next(member MemberInterface) (MemberInterface, error) {
 	currIndex, err := mList.indexOf(member)
 	if err != nil {
 		return nil, err
@@ -69,13 +69,13 @@ func (mList *memberList) next(member memberInterface) (memberInterface, error) {
 	}
 }
 
-func (mList *memberList) indexOf(member memberInterface) (int, error) {
+func (mList *memberList) indexOf(member MemberInterface) (int, error) {
 	for i, mem := range mList.members {
 		if mem.equals(member) {
 			return i, nil
 		}
 	}
-	return -1, fmt.Errorf("household member not found. Name: %s", member.string())
+	return -1, fmt.Errorf("household member not found. Name: %s", member.String())
 }
 
 func (mList *memberList) length() int {
