@@ -8,8 +8,8 @@ import (
 	"github.com/Ben-harder/estate/household"
 )
 
-func NewSchedule(household household.HouseholdInterface) ScheduleInterface {
-	schedule := &schedule{household: household, whoseTurn: household.First()}
+func NewSchedule(name string, household household.HouseholdInterface) ScheduleInterface {
+	schedule := &schedule{name: name, household: household, whoseTurn: household.First()}
 	return schedule
 }
 
@@ -17,13 +17,19 @@ type ScheduleInterface interface {
 	NextJob() (string, string, string)
 	SetTurn(name string)
 	CheckNextJob()
+	Name() string
 	nextJob() *job
 }
 
 type schedule struct {
+	name      string
 	jobs      *list.List
 	household household.HouseholdInterface
 	whoseTurn string
+}
+
+func (sch *schedule) Name() string {
+	return sch.name
 }
 
 // NextJob returns a schedules upcoming job's responsibilities and date.

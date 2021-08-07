@@ -6,8 +6,8 @@ import (
 	"github.com/Ben-harder/estate/household"
 )
 
-func NewChore(responsibilities string, date string) ChoreInterface {
-	return &chore{responsibilities: responsibilities, date: date}
+func NewChore(scheduleName string, responsibilities string, date string) ChoreInterface {
+	return &chore{scheduleName: scheduleName, responsibilities: responsibilities, date: date}
 }
 
 type ChoreInterface interface {
@@ -19,6 +19,7 @@ type chore struct {
 	date             string
 	responsibilities string
 	whoseTurn        []household.MemberInterface
+	scheduleName     string
 }
 
 func (chr *chore) String() string {

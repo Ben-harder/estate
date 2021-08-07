@@ -7,7 +7,7 @@ import (
 
 func NewEmptyChoreManager(household household.HouseholdInterface) ChoreManagerInterface {
 	chrManager := &choreManager{
-		currentChores: make([]ChoreInterface, 0),
+		currentChores: make(map[string]ChoreInterface, 0),
 		schedules:     make([]schedule.ScheduleInterface, 0),
 		household:     household,
 	}
@@ -16,13 +16,23 @@ func NewEmptyChoreManager(household household.HouseholdInterface) ChoreManagerIn
 
 type ChoreManagerInterface interface {
 	AddSchedule(schedule schedule.ScheduleInterface)
-	addChore(responsibilities string, date string)
+	Schedules() []string
+	setChore(scheduleName string, responsibilities string, date string)
 }
 
 type choreManager struct {
-	currentChores []ChoreInterface
+	currentChores map[string]ChoreInterface
 	schedules     []schedule.ScheduleInterface
 	household     household.HouseholdInterface
+}
+
+// Schedules returns the names of the chore manager's schedules
+func (chrManager *choreManager) Schedules() []string {
+	names := make([]string, len(chrManager.schedules))
+	for _, schedule := range chrManager.schedules {
+		names = append(names, schedule.Name())
+	}
+	return names
 }
 
 func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface) {
@@ -33,10 +43,10 @@ func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface)
 func (chrManager *choreManager) BuildCurrentChores() {
 	for _, schedule := range chrManager.schedules {
 		responsibilities, date, _ := schedule.NextJob()
-		chrManager.addChore(responsibilities, date)
+		chrManager.setChore(schedule.Name(), responsibilities, date)
 	}
 }
 
-func (chrManager *choreManager) addChore(responsibilities string, date string) {
-	chrManager.currentChores = append(chrManager.currentChores, NewChore(responsibilities, date))
+func (chrManager *choreManager) setChore(scheduleName string, responsibilities string, date string) {
+	chrManager.currentChores[scheduleName] = NewChore(scheduleName, responsibilities, date)
 }
