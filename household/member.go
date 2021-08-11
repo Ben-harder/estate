@@ -1,7 +1,10 @@
 package household
 
-import "strings"
+import (
+	"strings"
+)
 
+// newMember creates a new household member. Note that only Firstname or Firstname Lastname formats are accepted. Any middle names or abreviations will be ignored.
 func newMember(name string) MemberInterface {
 	firstName, lastName := cleanName(name)
 	return &member{firstName: firstName, lastName: lastName}
@@ -18,7 +21,7 @@ type member struct {
 }
 
 func (mem *member) String() string {
-	return mem.firstName + " " + mem.lastName
+	return strings.TrimSpace(mem.firstName + " " + mem.lastName)
 }
 
 func (mem *member) equals(otherMember MemberInterface) bool {
