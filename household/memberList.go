@@ -22,6 +22,8 @@ type memberListInterface interface {
 	first() MemberInterface
 	next(member MemberInterface) (MemberInterface, error)
 	getMember(name string) (MemberInterface, error)
+	indexOf(member MemberInterface) (int, error)
+	length() int
 }
 
 type memberList struct {
@@ -34,6 +36,7 @@ func (mList *memberList) sort() {
 	})
 }
 
+// string converts the memberlist to a comma delimited list of names
 func (mList *memberList) string() string {
 	str := ""
 	for _, member := range mList.members {
