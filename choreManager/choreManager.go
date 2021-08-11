@@ -18,6 +18,7 @@ type ChoreManagerInterface interface {
 	AddSchedule(schedule schedule.ScheduleInterface)
 	Schedules() []string
 	setChore(scheduleName string, responsibilities string, date string)
+	updateCurrentChores()
 }
 
 type choreManager struct {
@@ -37,12 +38,13 @@ func (chrManager *choreManager) Schedules() []string {
 
 func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface) {
 	chrManager.schedules = append(chrManager.schedules, schedule)
+	chrManager.updateCurrentChores()
 }
 
 // BuildChores: iterate through schedules, get next jobs which contain the responsibilities and date, then creates a chore for each by attaching name(s) to it
-func (chrManager *choreManager) BuildCurrentChores() {
+func (chrManager *choreManager) updateCurrentChores() {
 	for _, schedule := range chrManager.schedules {
-		responsibilities, date, _ := schedule.NextJob()
+		responsibilities, date := schedule.NextJob()
 		chrManager.setChore(schedule.Name(), responsibilities, date)
 	}
 }

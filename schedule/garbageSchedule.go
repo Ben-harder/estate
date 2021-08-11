@@ -6,8 +6,8 @@ import (
 	"github.com/Ben-harder/estate/household"
 )
 
-func NewGarbageSchedule(household household.HouseholdInterface, pathToSchedule string) (ScheduleInterface, error) {
-	sch := &schedule{household: household}
+func NewGarbageSchedule(name string, household household.HouseholdInterface, pathToSchedule string) (ScheduleInterface, error) {
+	sch := &schedule{name: name, household: household}
 	sch.jobs = list.New()
 	err := sch.parseEvents(pathToSchedule)
 	if err != nil {

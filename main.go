@@ -5,7 +5,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/Ben-harder/estate/choreManager"
 	"github.com/Ben-harder/estate/household"
+	"github.com/Ben-harder/estate/schedule"
 	"github.com/Ben-harder/estate/server"
 )
 
@@ -17,6 +19,12 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to create household. err: ", err)
 	}
-	svr := server.NewHouseholdServer(80, theEstate)
+	jobSchedule, err := schedule.NewGarbageSchedule("garbage schedule", theEstate, "schedule/schedule.ics")
+	if err != nil {
+		log.Fatal(err)
+	}
+	choreManager := choreManager.NewEmptyChoreManager(theEstate)
+	choreManager.AddSchedule(jobSchedule)
+	svr := server.NewHouseholdServer(80, choreManager)
 	svr.ListenAndServe()
 }

@@ -9,13 +9,12 @@ import (
 )
 
 func NewSchedule(name string, household household.HouseholdInterface) ScheduleInterface {
-	schedule := &schedule{name: name, household: household, whoseTurn: household.First()}
+	schedule := &schedule{name: name, household: household}
 	return schedule
 }
 
 type ScheduleInterface interface {
-	NextJob() (string, string, string)
-	SetTurn(name string)
+	NextJob() (string, string)
 	CheckNextJob()
 	Name() string
 	nextJob() *job
@@ -25,7 +24,6 @@ type schedule struct {
 	name      string
 	jobs      *list.List
 	household household.HouseholdInterface
-	whoseTurn string
 }
 
 func (sch *schedule) Name() string {
@@ -33,13 +31,9 @@ func (sch *schedule) Name() string {
 }
 
 // NextJob returns a schedules upcoming job's responsibilities and date.
-func (sch *schedule) NextJob() (responsibilities string, date string, whoseTurn string) {
+func (sch *schedule) NextJob() (responsibilities string, date string) {
 	job := sch.jobs.Front().Value.(*job)
-	return string(job.responsibilities), strings.Split(job.date.String(), " ")[0], sch.whoseTurn
-}
-
-func (sch *schedule) SetTurn(name string) {
-	sch.whoseTurn = name
+	return string(job.responsibilities), strings.Split(job.date.String(), " ")[0]
 }
 
 func (sch *schedule) nextJob() *job {
@@ -55,7 +49,6 @@ func (sch *schedule) CheckNextJob() {
 	nextJobDay := nextJob.date.YearDay()
 	if nowDay > nextJobDay {
 		sch.jobs.Remove(sch.jobs.Front())
-		sch.household.MemberAfter(sch.whoseTurn)
 	}
 }
 

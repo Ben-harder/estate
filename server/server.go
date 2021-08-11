@@ -5,22 +5,17 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
-	"github.com/Ben-harder/estate/household"
+	"github.com/Ben-harder/estate/choreManager"
 	"github.com/Ben-harder/estate/schedule"
 )
 
-func NewHouseholdServer(port int, household household.HouseholdInterface) HouseholdServerInterface {
+func NewHouseholdServer(port int, choreManager choreManager.ChoreManagerInterface) HouseholdServerInterface {
 	svr := &householdServer{}
 	svr.port = strconv.Itoa(port)
-	svr.household = household
-	jobSchedule, err := schedule.NewGarbageSchedule(household, "schedule/schedule.ics")
-	if err != nil {
-		log.Fatal(err)
-	}
-	jobSchedule.SetTurn("Dominick Laroche")
-	svr.schedule = jobSchedule
+	svr.choreManager = choreManager
 	return svr
 }
 
@@ -30,9 +25,9 @@ type HouseholdServerInterface interface {
 }
 
 type householdServer struct {
-	port      string
-	household household.HouseholdInterface
-	schedule  schedule.ScheduleInterface
+	port         string
+	choreManager choreManager.ChoreManagerInterface
+	schedule     schedule.ScheduleInterface
 }
 
 func (svr *householdServer) ListenAndServe() {
@@ -66,8 +61,9 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 		http.Error(w, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	job, date, whoseTurn := svr.schedule.NextJob()
-	fmt.Fprintln(w, "Hello and welcome to The Estate")
-	fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
-	fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
+	// job, date, whoseTurn := svr.schedule.NextJob()
+	// fmt.Fprintln(w, "Hello and welcome to The Estate")
+	// fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
+	// fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
+	fmt.Fprintf(w, strings.Join(svr.choreManager.Schedules(), ", "))
 }
