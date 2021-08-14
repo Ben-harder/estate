@@ -22,7 +22,7 @@ type garbageSchedule struct {
 }
 
 func (sch *schedule) parseEvents(path string) error {
-	jobs, err := parseICS("schedule/schedule.ics")
+	jobs, err := parseICS(path)
 	if err != nil {
 		return err
 	}
