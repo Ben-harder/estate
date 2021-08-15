@@ -59,6 +59,7 @@ func (hHold *household) GetHouseholdMember(name string) (MemberInterface, error)
 	}
 }
 
+// String converts the memberlist to a comma delimited list of names
 func (hHold *household) String() string {
 	return hHold.members.string()
 }
