@@ -19,9 +19,11 @@ func newMemberList(memberNames []string) memberListInterface {
 type memberListInterface interface {
 	sort()
 	string() string
+	memberNames() []string
 	first() MemberInterface
 	next(member MemberInterface) (MemberInterface, error)
 	getMember(name string) (MemberInterface, error)
+	getMembers() []MemberInterface
 	indexOf(member MemberInterface) (int, error)
 	length() int
 }
@@ -44,6 +46,20 @@ func (mList *memberList) string() string {
 	}
 	str = strings.Trim(str, ", ")
 	return str
+}
+
+// memberNames returns a slice of the member names
+func (mList *memberList) memberNames() []string {
+	mListNames := make([]string, 0)
+	for _, member := range mList.members {
+		mListNames = append(mListNames, member.String())
+	}
+	return mListNames
+}
+
+// members returns the members in the list as a slice
+func (mList *memberList) getMembers() []MemberInterface {
+	return mList.members
 }
 
 func (mList *memberList) first() MemberInterface {
