@@ -22,15 +22,19 @@ type chore struct {
 	scheduleName     string
 }
 
+// String returns the string representation of a chore
 func (chr *chore) String() string {
-	return "Date: " + chr.date + "\nWhose turn: " + strings.Join(mapToName(chr.whoseTurn), ", ")
+	whoseTurns := strings.Join(mapHouseholdToNames(chr.whoseTurn), ", ")
+	whoseTurns = strings.Trim(whoseTurns, ", ")
+	return "Date: " + chr.date + "| Whose turn: " + whoseTurns
 }
 
 func (chr *chore) SetTurn(members []household.MemberInterface) {
 	chr.whoseTurn = members
 }
 
-func mapToName(members []household.MemberInterface) []string {
+// mapHouseholdToNames takes a list of member interfaces and converts it to a slice of their names
+func mapHouseholdToNames(members []household.MemberInterface) []string {
 	names := make([]string, len(members))
 	for _, mem := range members {
 		names = append(names, mem.String())
