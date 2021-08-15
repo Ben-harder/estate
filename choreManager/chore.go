@@ -6,34 +6,40 @@ import (
 	"github.com/Ben-harder/estate/household"
 )
 
-func NewChore(scheduleName string, responsibilities string, date string) ChoreInterface {
-	return &chore{scheduleName: scheduleName, responsibilities: responsibilities, date: date}
+func NewChore(scheduleName string, responsibilities string, date string, turnList [][]household.MemberInterface) ChoreInterface {
+	choreTurnList := NewChoreTurnList(turnList)
+	return &chore{scheduleName: scheduleName, responsibilities: responsibilities, date: date, choreTurnList: choreTurnList}
 }
 
 type ChoreInterface interface {
-	SetTurn(members []household.MemberInterface)
-	Schedule() string
 	String() string
 	WhoseTurn() []household.MemberInterface
+	Schedule() string
+	Responsibilities() string
+	Date() string
+	SetTurn(index int) error
+	SetResponsibilities(string)
+	SetDate(date string)
+	AdvanceToNextTurn()
 }
 
 type chore struct {
 	date             string
 	responsibilities string
-	whoseTurn        []household.MemberInterface
+	choreTurnList    choreTurnListInterface
 	scheduleName     string
 }
 
 // String returns the string representation of a chore
 func (chr *chore) String() string {
-	whoseTurns := strings.Join(mapHouseholdToNames(chr.whoseTurn), ", ")
+	whoseTurns := strings.Join(mapHouseholdToNames(chr.choreTurnList.whoseTurn()), ", ")
 	whoseTurns = strings.Trim(whoseTurns, ", ")
 	return "Responsibilities: " + chr.responsibilities + " | Date: " + chr.date + " | Whose turn: " + whoseTurns
 }
 
 // WhoseTurn returns the person responsible for this chore
 func (chr *chore) WhoseTurn() []household.MemberInterface {
-	return chr.whoseTurn
+	return chr.choreTurnList.whoseTurn()
 }
 
 // Schedule returns the name of the schedule this chore is from
@@ -41,8 +47,38 @@ func (chr *chore) Schedule() string {
 	return chr.scheduleName
 }
 
-func (chr *chore) SetTurn(members []household.MemberInterface) {
-	chr.whoseTurn = members
+// Responsibilities returns the responsibilities for this chore
+func (chr *chore) Responsibilities() string {
+	return chr.responsibilities
+}
+
+// Date returns the date for this chore
+func (chr *chore) Date() string {
+	return chr.date
+}
+
+// SetTurn will set who is responsible for the chore using an index
+func (chr *chore) SetTurn(index int) error {
+	err := chr.choreTurnList.setTurn(index)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// SetResponsibilities will set the responsibilities for this chore
+func (chr *chore) SetResponsibilities(responsibilities string) {
+	chr.responsibilities = responsibilities
+}
+
+// SetDate sets the date that this chore should be done by
+func (chr *chore) SetDate(date string) {
+	chr.date = date
+}
+
+// AdvanceToNextTurn will advance the chore to the next people in the turn list
+func (chr *chore) AdvanceToNextTurn() {
+	chr.choreTurnList.advanceToNext()
 }
 
 // mapHouseholdToNames takes a list of member interfaces and converts it to a slice of their names
