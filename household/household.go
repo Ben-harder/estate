@@ -16,6 +16,7 @@ func NewHousehold(memberNames []string) (HouseholdInterface, error) {
 
 type HouseholdInterface interface {
 	PrintHouseholdMembers()
+	Members() []MemberInterface
 	String() string
 	MemberAfter(name string) (MemberInterface, error)
 	First() MemberInterface
@@ -27,6 +28,13 @@ type household struct {
 
 func (hHold *household) PrintHouseholdMembers() {
 	fmt.Println(hHold.members.string())
+}
+
+// Members returns a copy of the household members
+func (hHold *household) Members() []MemberInterface {
+	membersCopy := make([]MemberInterface, hHold.members.length())
+	copy(membersCopy, hHold.members.getMembers())
+	return membersCopy
 }
 
 func (hHold *household) String() string {
