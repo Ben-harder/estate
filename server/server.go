@@ -65,5 +65,5 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 	// fmt.Fprintln(w, "Hello and welcome to The Estate")
 	// fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
 	// fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
-	fmt.Fprintf(w, strings.Join(svr.choreManager.Schedules(), ", "))
+	fmt.Fprintf(w, "Chores:\n"+strings.Join(svr.choreManager.Chores(), "\n"))
 }

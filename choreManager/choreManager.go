@@ -1,6 +1,8 @@
 package choreManager
 
 import (
+	"log"
+
 	"github.com/Ben-harder/estate/household"
 	"github.com/Ben-harder/estate/schedule"
 )
@@ -30,7 +32,7 @@ type choreManager struct {
 
 // Schedules returns the names of the chore manager's schedules
 func (chrManager *choreManager) Schedules() []string {
-	names := make([]string, len(chrManager.schedules))
+	names := make([]string, 0)
 	for _, schedule := range chrManager.schedules {
 		names = append(names, schedule.Name())
 	}
@@ -39,7 +41,7 @@ func (chrManager *choreManager) Schedules() []string {
 
 // Chores returns the current chores as strings
 func (chrManager *choreManager) Chores() []string {
-	choreStrings := make([]string, len(chrManager.currentChores))
+	choreStrings := make([]string, 0)
 	for _, chore := range chrManager.currentChores {
 		choreStrings = append(choreStrings, chore.String())
 	}
@@ -53,6 +55,7 @@ func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface)
 
 // BuildChores: iterate through schedules, get next jobs which contain the responsibilities and date, then creates a chore for each by attaching name(s) to it
 func (chrManager *choreManager) updateCurrentChores() {
+	log.Println("checking schedules for chore updates...")
 	for _, schedule := range chrManager.schedules {
 		responsibilities, date := schedule.NextJob()
 		chrManager.setChore(schedule.Name(), responsibilities, date, "")

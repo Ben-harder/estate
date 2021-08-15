@@ -12,6 +12,7 @@ func NewChore(scheduleName string, responsibilities string, date string) ChoreIn
 
 type ChoreInterface interface {
 	SetTurn(members []household.MemberInterface)
+	Schedule() string
 	String() string
 }
 
@@ -26,7 +27,12 @@ type chore struct {
 func (chr *chore) String() string {
 	whoseTurns := strings.Join(mapHouseholdToNames(chr.whoseTurn), ", ")
 	whoseTurns = strings.Trim(whoseTurns, ", ")
-	return "Date: " + chr.date + "| Whose turn: " + whoseTurns
+	return "Responsibilities: " + chr.responsibilities + " | Date: " + chr.date + " | Whose turn: " + whoseTurns
+}
+
+// Schedule returns the name of the schedule this chore is from
+func (chr *chore) Schedule() string {
+	return chr.scheduleName
 }
 
 func (chr *chore) SetTurn(members []household.MemberInterface) {
@@ -35,7 +41,7 @@ func (chr *chore) SetTurn(members []household.MemberInterface) {
 
 // mapHouseholdToNames takes a list of member interfaces and converts it to a slice of their names
 func mapHouseholdToNames(members []household.MemberInterface) []string {
-	names := make([]string, len(members))
+	names := make([]string, 0)
 	for _, mem := range members {
 		names = append(names, mem.String())
 	}

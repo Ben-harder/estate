@@ -2,6 +2,7 @@ package schedule
 
 import (
 	"container/list"
+	"log"
 	"strings"
 	"time"
 
@@ -48,7 +49,7 @@ func (sch *schedule) CheckNextJob() {
 	nextJob := sch.nextJob()
 	nextJobDay := nextJob.date.YearDay()
 	if nowDay > nextJobDay {
-		sch.jobs.Remove(sch.jobs.Front())
+		sch.removeNextJob()
 	}
 }
 
@@ -60,9 +61,15 @@ func (sch *schedule) deletePassedJobs() {
 		nextJob := sch.nextJob()
 		nextJobDay := nextJob.date.YearDay()
 		if nowDay > nextJobDay {
-			sch.jobs.Remove(sch.jobs.Front())
+			sch.removeNextJob()
 		} else {
 			oldJobsExist = false
 		}
 	}
+}
+
+func (sch *schedule) removeNextJob() {
+	nextJob := sch.nextJob()
+	log.Printf("removing job{%v, %v}. Date has passed", nextJob.responsibilities, nextJob.date.String())
+	sch.jobs.Remove(sch.jobs.Front())
 }
