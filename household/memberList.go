@@ -90,7 +90,7 @@ func (mList *memberList) next(member MemberInterface) (MemberInterface, error) {
 
 func (mList *memberList) indexOf(member MemberInterface) (int, error) {
 	for i, mem := range mList.members {
-		if mem.equals(member) {
+		if mem.Equals(member) {
 			return i, nil
 		}
 	}

@@ -12,7 +12,7 @@ func newMember(name string) MemberInterface {
 
 type MemberInterface interface {
 	String() string
-	equals(member MemberInterface) bool
+	Equals(member MemberInterface) bool
 }
 
 type member struct {
@@ -24,7 +24,7 @@ func (mem *member) String() string {
 	return strings.TrimSpace(mem.firstName + " " + mem.lastName)
 }
 
-func (mem *member) equals(otherMember MemberInterface) bool {
+func (mem *member) Equals(otherMember MemberInterface) bool {
 	if mem.String() == otherMember.String() {
 		return true
 	} else {
