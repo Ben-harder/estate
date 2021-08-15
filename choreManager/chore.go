@@ -14,6 +14,7 @@ type ChoreInterface interface {
 	SetTurn(members []household.MemberInterface)
 	Schedule() string
 	String() string
+	WhoseTurn() []household.MemberInterface
 }
 
 type chore struct {
@@ -28,6 +29,11 @@ func (chr *chore) String() string {
 	whoseTurns := strings.Join(mapHouseholdToNames(chr.whoseTurn), ", ")
 	whoseTurns = strings.Trim(whoseTurns, ", ")
 	return "Responsibilities: " + chr.responsibilities + " | Date: " + chr.date + " | Whose turn: " + whoseTurns
+}
+
+// WhoseTurn returns the person responsible for this chore
+func (chr *chore) WhoseTurn() []household.MemberInterface {
+	return chr.whoseTurn
 }
 
 // Schedule returns the name of the schedule this chore is from
