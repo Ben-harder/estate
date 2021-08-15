@@ -18,6 +18,7 @@ type ChoreInterface interface {
 	Responsibilities() string
 	Date() string
 	SetTurn(index int) error
+	SetTurnWithMember(member household.MemberInterface) error
 	SetResponsibilities(string)
 	SetDate(date string)
 	AdvanceToNextTurn()
@@ -64,6 +65,16 @@ func (chr *chore) SetTurn(index int) error {
 		return err
 	}
 	return nil
+}
+
+// SetTurnWithMember will search the turn list for the given member and set those person(s) to the current turn
+func (chr *chore) SetTurnWithMember(member household.MemberInterface) error {
+	err := chr.choreTurnList.setTurnWithMember(member)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 // SetResponsibilities will set the responsibilities for this chore

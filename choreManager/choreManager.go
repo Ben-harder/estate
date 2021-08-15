@@ -1,6 +1,7 @@
 package choreManager
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/Ben-harder/estate/household"
@@ -22,7 +23,7 @@ type ChoreManagerInterface interface {
 	Chores() []string
 	Schedules() []string
 	DefaultTurnList() [][]household.MemberInterface
-	// setChore(scheduleName string, responsibilities string, date string, whoseTurn string)
+	SetTurnForSchedule(scheduleName string, memberName string) error
 	updateCurrentChores()
 }
 
@@ -68,11 +69,29 @@ func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface,
 	// Create the chore that will correspond to this schedule
 	chore := NewChore(schedule.Name(), responsibilities, date, turnList)
 	chore.SetTurn(whoStarts)
-	log.Printf("chore update: schedule{%v}, chore{%v, %v, %v}", schedule.Name(), chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
+	log.Printf("initialized chore: schedule{%v}, chore{%v, %v, %v}", schedule.Name(), chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
 	chrManager.currentChores[schedule.Name()] = chore
 }
 
-// updateCurrentChores iterate through schedules,
+// SetTurnForSchedule will take the provided name and set the chore's turn to them or to whichever chore group they're in.
+func (chrManager *choreManager) SetTurnForSchedule(scheduleName string, memberName string) error {
+	log.Printf("setting turn for schedule, %v, to %v", scheduleName, memberName)
+	chore, ok := chrManager.currentChores[scheduleName]
+	if !ok {
+		return fmt.Errorf("schedule, %v, did not exist", scheduleName)
+	}
+	member, err := chrManager.household.GetHouseholdMember(memberName)
+	if err != nil {
+		return err
+	}
+	err = chore.SetTurnWithMember(member)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// updateCurrentChores iterate through schedules, and looks for any old jobs. Any old jobs will be removed and turns advanced.
 func (chrManager *choreManager) updateCurrentChores() {
 	log.Println("checking schedules for chore updates...")
 	for _, schedule := range chrManager.schedules {
@@ -83,14 +102,7 @@ func (chrManager *choreManager) updateCurrentChores() {
 			chore.SetResponsibilities(responsibilities)
 			chore.SetDate(date)
 			chore.AdvanceToNextTurn()
-			// chrManager.setChore(schedule.Name(), chore)
 			log.Printf("chore update: schedule{%v}, chore{%v, %v, %v}", schedule.Name(), chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
 		}
 	}
 }
-
-// // setChore sets the chore for a particular schedule
-// func (chrManager *choreManager) setChore(scheduleName string, chore ChoreInterface) {
-// 	log.Printf("chore update: schedule{%v}, chore{%v, %v, %v}", scheduleName, chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
-// 	chrManager.currentChores[scheduleName] = chore
-// }

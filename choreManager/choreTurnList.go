@@ -15,6 +15,7 @@ type choreTurnListInterface interface {
 	advanceToNext()
 	whoseTurn() []household.MemberInterface
 	setTurn(index int) error
+	setTurnWithMember(member household.MemberInterface) error
 	currIndex() int
 }
 
@@ -39,6 +40,18 @@ func (chrTurnList *choreTurnList) setTurn(index int) error {
 		chrTurnList.index = index
 		return nil
 	}
+}
+
+func (chrTurnList *choreTurnList) setTurnWithMember(member household.MemberInterface) error {
+	for i, sublist := range chrTurnList.turnList {
+		for _, sublistMember := range sublist {
+			if sublistMember.Equals(member) {
+				chrTurnList.setTurn(i)
+				return nil
+			}
+		}
+	}
+	return fmt.Errorf("could not find member, %v, in turn lists", member.String())
 }
 
 func (chrTurnList *choreTurnList) currIndex() int {
