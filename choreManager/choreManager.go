@@ -5,7 +5,7 @@ import (
 	"github.com/Ben-harder/estate/schedule"
 )
 
-func NewEmptyChoreManager(household household.HouseholdInterface) ChoreManagerInterface {
+func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterface {
 	chrManager := &choreManager{
 		currentChores: make(map[string]ChoreInterface, 0),
 		schedules:     make([]schedule.ScheduleInterface, 0),
@@ -16,8 +16,9 @@ func NewEmptyChoreManager(household household.HouseholdInterface) ChoreManagerIn
 
 type ChoreManagerInterface interface {
 	AddSchedule(schedule schedule.ScheduleInterface)
+	Chores() []string
 	Schedules() []string
-	setChore(scheduleName string, responsibilities string, date string)
+	setChore(scheduleName string, responsibilities string, date string, whoseTurn string)
 	updateCurrentChores()
 }
 
@@ -36,6 +37,15 @@ func (chrManager *choreManager) Schedules() []string {
 	return names
 }
 
+// Chores returns the current chores as strings
+func (chrManager *choreManager) Chores() []string {
+	choreStrings := make([]string, len(chrManager.currentChores))
+	for _, chore := range chrManager.currentChores {
+		choreStrings = append(choreStrings, chore.String())
+	}
+	return choreStrings
+}
+
 func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface) {
 	chrManager.schedules = append(chrManager.schedules, schedule)
 	chrManager.updateCurrentChores()
@@ -45,10 +55,15 @@ func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface)
 func (chrManager *choreManager) updateCurrentChores() {
 	for _, schedule := range chrManager.schedules {
 		responsibilities, date := schedule.NextJob()
-		chrManager.setChore(schedule.Name(), responsibilities, date)
+		chrManager.setChore(schedule.Name(), responsibilities, date, "")
 	}
 }
 
-func (chrManager *choreManager) setChore(scheduleName string, responsibilities string, date string) {
-	chrManager.currentChores[scheduleName] = NewChore(scheduleName, responsibilities, date)
+func (chrManager *choreManager) setChore(scheduleName string, responsibilities string, date string, whoseTurn string) {
+	newChore := NewChore(scheduleName, responsibilities, date)
+	if whoseTurn == "" {
+		newChore.SetTurn([]household.MemberInterface{chrManager.household.First()})
+	}
+	// TODO: allow other people to take a turn instead of the first person in the house
+	chrManager.currentChores[scheduleName] = newChore
 }

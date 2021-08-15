@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	choreManager := choreManager.NewEmptyChoreManager(theEstate)
+	choreManager := choreManager.NewChoreManager(theEstate)
 	choreManager.AddSchedule(jobSchedule)
 	svr := server.NewHouseholdServer(80, choreManager)
 	svr.ListenAndServe()
