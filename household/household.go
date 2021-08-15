@@ -19,6 +19,8 @@ type HouseholdInterface interface {
 	Members() []MemberInterface
 	String() string
 	MemberAfter(name string) (MemberInterface, error)
+	IsHouseholdMember(name string) bool
+	GetHouseholdMember(name string) (MemberInterface, error)
 	First() MemberInterface
 }
 
@@ -35,6 +37,26 @@ func (hHold *household) Members() []MemberInterface {
 	membersCopy := make([]MemberInterface, hHold.members.length())
 	copy(membersCopy, hHold.members.getMembers())
 	return membersCopy
+}
+
+// IsHouseholdMember returns true if the given name is one of the members of the household
+func (hHold *household) IsHouseholdMember(name string) bool {
+	_, err := hHold.members.getMember(name)
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}
+
+// GetHouseholdMember returns the household member who has the given name or an error if they don't exist
+func (hHold *household) GetHouseholdMember(name string) (MemberInterface, error) {
+	member, err := hHold.members.getMember(name)
+	if err != nil {
+		return nil, err
+	} else {
+		return member, nil
+	}
 }
 
 func (hHold *household) String() string {
