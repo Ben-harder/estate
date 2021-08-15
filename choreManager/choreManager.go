@@ -24,7 +24,7 @@ type ChoreManagerInterface interface {
 	Schedules() []string
 	DefaultTurnList() [][]household.MemberInterface
 	SetTurnForSchedule(scheduleName string, memberName string) error
-	updateCurrentChores()
+	UpdateChoresIfOld()
 }
 
 type choreManager struct {
@@ -91,8 +91,8 @@ func (chrManager *choreManager) SetTurnForSchedule(scheduleName string, memberNa
 	return nil
 }
 
-// updateCurrentChores iterate through schedules, and looks for any old jobs. Any old jobs will be removed and turns advanced.
-func (chrManager *choreManager) updateCurrentChores() {
+// UpdateChoresIfOld iterate through schedules, and looks for any old jobs. Any old jobs will be removed and turns advanced.
+func (chrManager *choreManager) UpdateChoresIfOld() {
 	log.Println("checking schedules for chore updates...")
 	for _, schedule := range chrManager.schedules {
 		chore := chrManager.currentChores[schedule.Name()]
