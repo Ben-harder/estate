@@ -24,7 +24,8 @@ func main() {
 		log.Fatal(err)
 	}
 	choreManager := choreManager.NewChoreManager(theEstate)
-	choreManager.AddSchedule(jobSchedule)
+	turnList := choreManager.DefaultTurnList()
+	choreManager.AddSchedule(jobSchedule, turnList, 0)
 	svr := server.NewHouseholdServer(80, choreManager)
 	svr.ListenAndServe()
 }
