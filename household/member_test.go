@@ -16,5 +16,5 @@ func TestString(t *testing.T) {
 func TestEquals(t *testing.T) {
 	n1 := newMember("John Doe")
 	n2 := newMember("John A. Doe")
-	assert.True(t, n1.equals(n2))
+	assert.True(t, n1.Equals(n2))
 }
