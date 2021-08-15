@@ -10,13 +10,13 @@ import (
 func testMemberAfter(t *testing.T, h HouseholdInterface) {
 	m, err := h.MemberAfter("John Doe")
 	assert.Nil(t, err)
-	assert.Equal(t, "Maggie Karl", m)
-	m, err = h.MemberAfter(m)
+	assert.Equal(t, "Maggie Karl", m.String())
+	m, err = h.MemberAfter(m.String())
 	assert.Nil(t, err)
-	assert.Equal(t, "Abe Peters", m)
-	m, err = h.MemberAfter(m)
+	assert.Equal(t, "Abe Peters", m.String())
+	m, err = h.MemberAfter(m.String())
 	assert.Nil(t, err)
-	assert.Equal(t, "John Doe", m)
+	assert.Equal(t, "John Doe", m.String())
 	_, err = h.MemberAfter("Doesn't Exist")
 	assert.Error(t, err)
 }
