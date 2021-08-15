@@ -16,9 +16,10 @@ func NewSchedule(name string, household household.HouseholdInterface) ScheduleIn
 
 type ScheduleInterface interface {
 	NextJob() (string, string)
-	CheckNextJob()
+	RemoveNextJob()
 	Name() string
 	nextJob() *job
+	IsNextJobOld() bool
 }
 
 type schedule struct {
@@ -42,15 +43,15 @@ func (sch *schedule) nextJob() *job {
 	return job
 }
 
-// Removes next job if it's a day passed
-func (sch *schedule) CheckNextJob() {
+func (sch *schedule) IsNextJobOld() bool {
 	now := time.Now()
 	nowDay := now.YearDay()
 	nextJob := sch.nextJob()
 	nextJobDay := nextJob.date.YearDay()
 	if nowDay > nextJobDay {
-		sch.removeNextJob()
+		return true
 	}
+	return false
 }
 
 func (sch *schedule) deletePassedJobs() {
@@ -61,15 +62,15 @@ func (sch *schedule) deletePassedJobs() {
 		nextJob := sch.nextJob()
 		nextJobDay := nextJob.date.YearDay()
 		if nowDay > nextJobDay {
-			sch.removeNextJob()
+			sch.RemoveNextJob()
 		} else {
 			oldJobsExist = false
 		}
 	}
 }
 
-func (sch *schedule) removeNextJob() {
+func (sch *schedule) RemoveNextJob() {
 	nextJob := sch.nextJob()
-	log.Printf("removing job{%v, %v}. Date has passed", nextJob.responsibilities, nextJob.date.String())
+	log.Printf("removing job{%v, %v}", nextJob.responsibilities, nextJob.date.String())
 	sch.jobs.Remove(sch.jobs.Front())
 }
