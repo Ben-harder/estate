@@ -8,6 +8,7 @@ import (
 )
 
 func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterface {
+	log.Printf("creating new chore manager for household{%v}", household.String())
 	chrManager := &choreManager{
 		currentChores: make(map[string]ChoreInterface, 0),
 		schedules:     make([]schedule.ScheduleInterface, 0),
@@ -17,10 +18,11 @@ func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterfa
 }
 
 type ChoreManagerInterface interface {
-	AddSchedule(schedule schedule.ScheduleInterface)
+	AddSchedule(schedule schedule.ScheduleInterface, turnList [][]household.MemberInterface, whoStarts int)
 	Chores() []string
 	Schedules() []string
-	setChore(scheduleName string, responsibilities string, date string, whoseTurn string)
+	DefaultTurnList() [][]household.MemberInterface
+	// setChore(scheduleName string, responsibilities string, date string, whoseTurn string)
 	updateCurrentChores()
 }
 
@@ -39,6 +41,15 @@ func (chrManager *choreManager) Schedules() []string {
 	return names
 }
 
+// DefaultTurnList returns a slice of slices where each slice contains one household member
+func (chrManager *choreManager) DefaultTurnList() [][]household.MemberInterface {
+	defaultTurnList := make([][]household.MemberInterface, 0)
+	for _, member := range chrManager.household.Members() {
+		defaultTurnList = append(defaultTurnList, []household.MemberInterface{member})
+	}
+	return defaultTurnList
+}
+
 // Chores returns the current chores as strings
 func (chrManager *choreManager) Chores() []string {
 	choreStrings := make([]string, 0)
@@ -48,25 +59,38 @@ func (chrManager *choreManager) Chores() []string {
 	return choreStrings
 }
 
-func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface) {
+// AddSchedule adds the provided schedule to the chore manager and creates an accompanying chore for the next job
+func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface, turnList [][]household.MemberInterface, whoStarts int) {
+	log.Printf("adding new schedule to chore manager. Name: %v", schedule.Name())
 	chrManager.schedules = append(chrManager.schedules, schedule)
-	chrManager.updateCurrentChores()
+	responsibilities, date := schedule.NextJob()
+
+	// Create the chore that will correspond to this schedule
+	chore := NewChore(schedule.Name(), responsibilities, date, turnList)
+	chore.SetTurn(whoStarts)
+	log.Printf("chore update: schedule{%v}, chore{%v, %v, %v}", schedule.Name(), chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
+	chrManager.currentChores[schedule.Name()] = chore
 }
 
-// BuildChores: iterate through schedules, get next jobs which contain the responsibilities and date, then creates a chore for each by attaching name(s) to it
+// updateCurrentChores iterate through schedules,
 func (chrManager *choreManager) updateCurrentChores() {
 	log.Println("checking schedules for chore updates...")
 	for _, schedule := range chrManager.schedules {
-		responsibilities, date := schedule.NextJob()
-		chrManager.setChore(schedule.Name(), responsibilities, date, "")
+		chore := chrManager.currentChores[schedule.Name()]
+		if schedule.IsNextJobOld() {
+			schedule.RemoveNextJob()
+			responsibilities, date := schedule.NextJob()
+			chore.SetResponsibilities(responsibilities)
+			chore.SetDate(date)
+			chore.AdvanceToNextTurn()
+			// chrManager.setChore(schedule.Name(), chore)
+			log.Printf("chore update: schedule{%v}, chore{%v, %v, %v}", schedule.Name(), chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
+		}
 	}
 }
 
-func (chrManager *choreManager) setChore(scheduleName string, responsibilities string, date string, whoseTurn string) {
-	newChore := NewChore(scheduleName, responsibilities, date)
-	if whoseTurn == "" {
-		newChore.SetTurn([]household.MemberInterface{chrManager.household.First()})
-	}
-	// TODO: allow other people to take a turn instead of the first person in the house
-	chrManager.currentChores[scheduleName] = newChore
-}
+// // setChore sets the chore for a particular schedule
+// func (chrManager *choreManager) setChore(scheduleName string, chore ChoreInterface) {
+// 	log.Printf("chore update: schedule{%v}, chore{%v, %v, %v}", scheduleName, chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
+// 	chrManager.currentChores[scheduleName] = chore
+// }
