@@ -9,14 +9,11 @@ import (
 	"time"
 
 	"github.com/Ben-harder/estate/choreManager"
-	"github.com/Ben-harder/estate/schedule"
+	"github.com/Ben-harder/estate/household"
 )
 
-func NewHouseholdServer(port int, choreManager choreManager.ChoreManagerInterface) HouseholdServerInterface {
-	svr := &householdServer{}
-	svr.port = strconv.Itoa(port)
-	svr.choreManager = choreManager
-	return svr
+func NewHouseholdServer(port int, choreManager choreManager.ChoreManagerInterface, household household.HouseholdInterface) HouseholdServerInterface {
+	return &householdServer{port: strconv.Itoa(port), choreManager: choreManager, household: household}
 }
 
 type HouseholdServerInterface interface {
@@ -27,18 +24,18 @@ type HouseholdServerInterface interface {
 type householdServer struct {
 	port         string
 	choreManager choreManager.ChoreManagerInterface
-	schedule     schedule.ScheduleInterface
+	household    household.HouseholdInterface
 }
 
 func (svr *householdServer) ListenAndServe() {
 	log.Println("Starting server on port", svr.port)
 
-	checkJobs := time.NewTicker(4 * time.Hour)
+	checkJobs := time.NewTicker(1 * time.Minute)
 	go func() {
 		for {
 			select {
 			case <-checkJobs.C:
-				svr.schedule.CheckNextJob()
+				svr.choreManager.UpdateChoresIfOld()
 			}
 		}
 	}()
@@ -62,8 +59,8 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	// job, date, whoseTurn := svr.schedule.NextJob()
-	// fmt.Fprintln(w, "Hello and welcome to The Estate")
-	// fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
+	fmt.Fprintln(w, "Hello and welcome to The Estate")
+	fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
 	// fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
-	fmt.Fprintf(w, "Chores:\n"+strings.Join(svr.choreManager.Chores(), "\n"))
+	fmt.Fprintf(w, "\nChores:\n"+strings.Join(svr.choreManager.Chores(), "\n"))
 }
