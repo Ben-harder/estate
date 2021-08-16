@@ -19,17 +19,26 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to create household. err: ", err)
 	}
-	jobSchedule, err := schedule.NewGarbageSchedule("garbage schedule", theEstate, "schedule/schedule.ics")
+
+	garbageSchedule, err := schedule.NewGarbageSchedule("garbage schedule", "schedule/schedule.ics")
 	if err != nil {
 		log.Fatal(err)
 	}
 	choreManager := choreManager.NewChoreManager(theEstate)
 	turnList := choreManager.DefaultTurnList()
-	choreManager.AddSchedule(jobSchedule, turnList, 0)
+	choreManager.AddSchedule(garbageSchedule, turnList, 0)
 	err = choreManager.SetTurnForSchedule("garbage schedule", "Gus Koenigsfest")
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	houseCleanTurns, err := choreManager.CustomTurnList([]string{"Andrew Wright", "Ben Harder"}, []string{"Gus Koenigsfest", "David Gray"}, []string{"Grace Plaseski", "Dominick Laroche"})
+	if err != nil {
+		log.Fatal(err)
+	}
+	start := time.Date(2021, 9, 1, 0, 0, 0, 0, time.UTC)
+	houseCleanSchedule := schedule.NewCustomSchedule("house cleaning schedule", start, 12, 14, []string{"clean the house commons areas"})
+	choreManager.AddSchedule(houseCleanSchedule, houseCleanTurns, 0)
 	svr := server.NewHouseholdServer(80, choreManager, theEstate)
 	svr.ListenAndServe()
 }
