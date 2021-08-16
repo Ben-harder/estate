@@ -23,6 +23,7 @@ type ChoreManagerInterface interface {
 	Chores() []string
 	Schedules() []string
 	DefaultTurnList() [][]household.MemberInterface
+	CustomTurnList(listsOfNames ...[]string) ([][]household.MemberInterface, error)
 	SetTurnForSchedule(scheduleName string, memberName string) error
 	UpdateChoresIfOld()
 }
@@ -49,6 +50,22 @@ func (chrManager *choreManager) DefaultTurnList() [][]household.MemberInterface 
 		defaultTurnList = append(defaultTurnList, []household.MemberInterface{member})
 	}
 	return defaultTurnList
+}
+
+// CustomTurnList takes sublists of names and returns a 2D slice containing those lists as members
+func (chrManager *choreManager) CustomTurnList(listsOfNames ...[]string) ([][]household.MemberInterface, error) {
+	customTurnList := make([][]household.MemberInterface, len(listsOfNames))
+	for i, listOfNames := range listsOfNames {
+		customTurnList[i] = make([]household.MemberInterface, 0)
+		for _, name := range listOfNames {
+			member, err := chrManager.household.GetHouseholdMember(name)
+			if err != nil {
+				return nil, err
+			}
+			customTurnList[i] = append(customTurnList[i], member)
+		}
+	}
+	return customTurnList, nil
 }
 
 // Chores returns the current chores as strings
