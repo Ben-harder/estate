@@ -1,15 +1,14 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/Ben-harder/estate/choreManager"
 	"github.com/Ben-harder/estate/household"
+	"github.com/Ben-harder/estate/html"
 )
 
 func NewHouseholdServer(port int, choreManager choreManager.ChoreManagerInterface, household household.HouseholdInterface) HouseholdServerInterface {
@@ -59,8 +58,9 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	// job, date, whoseTurn := svr.schedule.NextJob()
-	fmt.Fprintln(w, "Hello and welcome to The Estate")
-	fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
+	// fmt.Fprintln(w, "Hello and welcome to The Estate")
+	// fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
 	// fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
-	fmt.Fprintf(w, "\nChores:\n"+strings.Join(svr.choreManager.Chores(), "\n"))
+	// fmt.Fprintf(w, "\nChores:\n"+strings.Join(svr.choreManager.Chores(), "\n"))
+	html.MainPage(svr.household.MemberNames(), svr.choreManager.Chores(), w)
 }
