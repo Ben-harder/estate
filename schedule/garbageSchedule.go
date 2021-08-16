@@ -2,12 +2,10 @@ package schedule
 
 import (
 	"container/list"
-
-	"github.com/Ben-harder/estate/household"
 )
 
-func NewGarbageSchedule(name string, household household.HouseholdInterface, pathToSchedule string) (ScheduleInterface, error) {
-	sch := &schedule{name: name, household: household}
+func NewGarbageSchedule(name string, pathToSchedule string) (ScheduleInterface, error) {
+	sch := &schedule{name: name}
 	sch.jobs = list.New()
 	err := sch.parseEvents(pathToSchedule)
 	if err != nil {

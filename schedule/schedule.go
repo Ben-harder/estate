@@ -5,12 +5,10 @@ import (
 	"log"
 	"strings"
 	"time"
-
-	"github.com/Ben-harder/estate/household"
 )
 
-func NewSchedule(name string, household household.HouseholdInterface) ScheduleInterface {
-	schedule := &schedule{name: name, household: household}
+func NewSchedule(name string) ScheduleInterface {
+	schedule := &schedule{name: name}
 	return schedule
 }
 
@@ -23,9 +21,8 @@ type ScheduleInterface interface {
 }
 
 type schedule struct {
-	name      string
-	jobs      *list.List
-	household household.HouseholdInterface
+	name string
+	jobs *list.List
 }
 
 func (sch *schedule) Name() string {
