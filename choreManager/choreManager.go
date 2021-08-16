@@ -20,7 +20,7 @@ func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterfa
 
 type ChoreManagerInterface interface {
 	AddSchedule(schedule schedule.ScheduleInterface, turnList [][]household.MemberInterface, whoStarts int)
-	Chores() []string
+	Chores() []ChoreInterface
 	Schedules() []string
 	DefaultTurnList() [][]household.MemberInterface
 	CustomTurnList(listsOfNames ...[]string) ([][]household.MemberInterface, error)
@@ -69,12 +69,12 @@ func (chrManager *choreManager) CustomTurnList(listsOfNames ...[]string) ([][]ho
 }
 
 // Chores returns the current chores as strings
-func (chrManager *choreManager) Chores() []string {
-	choreStrings := make([]string, 0)
+func (chrManager *choreManager) Chores() []ChoreInterface {
+	chores := make([]ChoreInterface, 0)
 	for _, chore := range chrManager.currentChores {
-		choreStrings = append(choreStrings, chore.String())
+		chores = append(chores, chore)
 	}
-	return choreStrings
+	return chores
 }
 
 // AddSchedule adds the provided schedule to the chore manager and creates an accompanying chore for the next job
