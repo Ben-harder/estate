@@ -67,13 +67,12 @@ func (mList *memberList) first() MemberInterface {
 }
 
 func (mList *memberList) getMember(name string) (MemberInterface, error) {
-	mem := newMember(name)
-	i, err := mList.indexOf(mem)
-	if err != nil {
-		return nil, err
-	} else {
-		return mList.members[i], nil
+	for _, member := range mList.members {
+		if member.String() == name {
+			return member, nil
+		}
 	}
+	return nil, fmt.Errorf("household member, %v, not found", name)
 }
 
 func (mList *memberList) next(member MemberInterface) (MemberInterface, error) {
