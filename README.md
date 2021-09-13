@@ -6,7 +6,7 @@ Webserver to manage household chore schedule written in Go.
 
 Encapsulation as it is in Go makes me uncomfortable. To make myself feel more comfortable with it, I've enforced some rules on myself for how "classes" are created and represented in code.
 
-Classes must have a constructor with name `new<Obj>`, an interface with name `<obj>Interface`, and a struct with name `<obj>`. Use uppercase first letter for methods or interfaces that should be exposed outside the package. Structs should never be exposed. 
+Classes must have a constructor with name `New<Obj>`, an interface with name `<obj>Interface`, and a struct with name `<obj>`. Use uppercase first letter for methods or interfaces that should be exposed outside the package. Structs should never be exposed. 
 
 ### Example with a dog object
 ```
