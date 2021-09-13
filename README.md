@@ -12,11 +12,11 @@ Objects must have a new function with name `new<Obj>`, an interface with name `<
 
 Example with a dog object:
 ```
-func newDog(name string, breed string) dogInterface {
+func NewDog(name string, breed string) dogInterface {
   return &dog{name: name, breed: breed)
 }
 
-type dogInterface interface {
+type DogInterface interface {
   bark()
 }
 
