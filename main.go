@@ -37,7 +37,7 @@ func main() {
 		log.Fatal(err)
 	}
 	start := time.Date(2021, 9, 1, 0, 0, 0, 0, time.UTC)
-	houseCleanSchedule := schedule.NewCustomSchedule("house cleaning schedule", start, 12, 14, []string{"clean the house commons areas"})
+	houseCleanSchedule := schedule.NewCustomSchedule("house cleaning schedule", start, 12, 14, []string{"clean the house common areas"})
 	choreManager.AddSchedule(houseCleanSchedule, houseCleanTurns, 0)
 	svr := server.NewHouseholdServer(80, choreManager, theEstate)
 	svr.ListenAndServe()
