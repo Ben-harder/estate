@@ -57,10 +57,6 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 		http.Error(w, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	// job, date, whoseTurn := svr.schedule.NextJob()
-	// fmt.Fprintln(w, "Hello and welcome to The Estate")
-	// fmt.Fprintf(w, "Residents of The Estate: %v\n", svr.household.String())
-	// fmt.Fprintf(w, "Garbage: %v's turn on %v to take out %v\n", whoseTurn, date, job)
-	// fmt.Fprintf(w, "\nChores:\n"+strings.Join(svr.choreManager.Chores(), "\n"))
+	
 	html.MainPage(svr.household.MemberNames(), svr.choreManager.Chores(), w)
 }
