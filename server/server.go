@@ -11,6 +11,10 @@ import (
 	"github.com/Ben-harder/estate/html"
 )
 
+type Peena struct {
+	Length int
+}
+
 func NewHouseholdServer(port int, choreManager choreManager.ChoreManagerInterface, household household.HouseholdInterface) HouseholdServerInterface {
 	return &householdServer{port: strconv.Itoa(port), choreManager: choreManager, household: household}
 }

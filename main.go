@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+
 	fmt.Println(time.Now())
 	fmt.Println("Welcome to the Estate")
 	names := []string{"Ben Harder", "Andrew Wright", "David Gray", "Dominick Laroche", "Gus Koenigsfest", "Grace Plaseski"}
@@ -20,14 +21,14 @@ func main() {
 		log.Fatal("failed to create household. err: ", err)
 	}
 
-	garbageSchedule, err := schedule.NewGarbageSchedule("garbage schedule", "schedule/schedule.ics")
+	garbageSchedule, err := schedule.NewGarbageSchedule("Garbage Schedule", "schedule/schedule.ics")
 	if err != nil {
 		log.Fatal(err)
 	}
 	choreManager := choreManager.NewChoreManager(theEstate)
 	turnList := choreManager.DefaultTurnList()
 	choreManager.AddSchedule(garbageSchedule, turnList, 0)
-	err = choreManager.SetTurnForSchedule("garbage schedule", "Gus Koenigsfest")
+	err = choreManager.SetTurnForSchedule("Garbage Schedule", "Andrew Wright")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,8 +38,9 @@ func main() {
 		log.Fatal(err)
 	}
 	start := time.Date(2021, 9, 1, 0, 0, 0, 0, time.UTC)
-	houseCleanSchedule := schedule.NewCustomSchedule("house cleaning schedule", start, 12, 14, []string{"clean the house common areas"})
+	houseCleanSchedule := schedule.NewCustomSchedule("House Cleaning Schedule", start, 12, 14, []string{"Clean the house common areas"})
 	choreManager.AddSchedule(houseCleanSchedule, houseCleanTurns, 0)
 	svr := server.NewHouseholdServer(80, choreManager, theEstate)
 	svr.ListenAndServe()
+
 }

@@ -36,7 +36,7 @@ func MainPage(memberNames []string, chores []choreManager.ChoreInterface, writer
       <div class="col">
     	<div class="container">
 		  <h1>Housemates</h1>
-		  {{range .MemberNames}}{{ . }}{{end}} 
+		  {{range .MemberNames}}{{ . }} {{end}} 
 		</div>
 	  </div>
 	<div class="row py-4">
@@ -68,11 +68,6 @@ func MainPage(memberNames []string, chores []choreManager.ChoreInterface, writer
 	</div>
   	</div>
   </div>
-
-    
-
-	
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
   </body>
 </html>`
