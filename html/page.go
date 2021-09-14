@@ -6,9 +6,10 @@ import (
 	"log"
 
 	"github.com/Ben-harder/estate/choreManager"
+	"github.com/Ben-harder/estate/household"
 )
 
-func MainPage(memberNames []string, chores []choreManager.ChoreInterface, writer io.Writer) {
+func MainPage(memberNames []string, chores []choreManager.ChoreInterface, household household.HouseholdInterface, writer io.Writer) {
 	const tpl = `
 <!doctype html>
 <html lang="en">
@@ -36,7 +37,7 @@ func MainPage(memberNames []string, chores []choreManager.ChoreInterface, writer
       <div class="col">
     	<div class="container">
 		  <h1>Housemates</h1>
-		  {{range .MemberNames}}{{ . }} {{end}} 
+		  {{ .MemberNames }} 
 		</div>
 	  </div>
 	<div class="row py-4">
@@ -83,12 +84,12 @@ func MainPage(memberNames []string, chores []choreManager.ChoreInterface, writer
 	data := struct {
 		Title       string
 		Header      string
-		MemberNames []string
+		MemberNames string
 		Chores      []choreManager.ChoreInterface
 	}{
 		Title:       "Wonderful Estate",
 		Header:      "The Estate Chore Manager",
-		MemberNames: memberNames,
+		MemberNames: household.String(),
 		Chores:      chores,
 	}
 

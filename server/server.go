@@ -61,6 +61,6 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 		http.Error(w, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	
-	html.MainPage(svr.household.MemberNames(), svr.choreManager.Chores(), w)
+
+	html.MainPage(svr.household.MemberNames(), svr.choreManager.Chores(), svr.household, w)
 }

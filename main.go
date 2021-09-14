@@ -15,7 +15,7 @@ func main() {
 
 	fmt.Println(time.Now())
 	fmt.Println("Welcome to the Estate")
-	names := []string{"Ben Harder", "Andrew Wright", "David Gray", "Dominick Laroche", "Gus Koenigsfest", "Grace Plaseski"}
+	names := []string{"Ben Harder", "Andrew Wright", "David Gray", "Dominick Laroche", "Georgia Stel", "Natalia Johnston"}
 	theEstate, err := household.NewHousehold(names)
 	if err != nil {
 		log.Fatal("failed to create household. err: ", err)
@@ -33,7 +33,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	houseCleanTurns, err := choreManager.CustomTurnList([]string{"Andrew Wright", "Ben Harder"}, []string{"Gus Koenigsfest", "David Gray"}, []string{"Grace Plaseski", "Dominick Laroche"})
+	houseCleanTurns, err := choreManager.CustomTurnList([]string{"Andrew Wright", "Ben Harder"}, []string{"Georgia Stel", "David Gray"}, []string{"Natalia Johnston", "Dominick Laroche"})
 	if err != nil {
 		log.Fatal(err)
 	}
