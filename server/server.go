@@ -11,10 +11,6 @@ import (
 	"github.com/Ben-harder/estate/html"
 )
 
-type Peena struct {
-	Length int
-}
-
 func NewHouseholdServer(port int, choreManager choreManager.ChoreManagerInterface, household household.HouseholdInterface) HouseholdServerInterface {
 	return &householdServer{port: strconv.Itoa(port), choreManager: choreManager, household: household}
 }
@@ -33,7 +29,7 @@ type householdServer struct {
 func (svr *householdServer) ListenAndServe() {
 	log.Println("Starting server on port", svr.port)
 
-	checkJobs := time.NewTicker(1 * time.Minute)
+	checkJobs := time.NewTicker(1 * time.Hour)
 	go func() {
 		for {
 			select {
