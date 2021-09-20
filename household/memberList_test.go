@@ -6,14 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// sort()
-// string() string
-// first() MemberInterface
-// next(member MemberInterface) (MemberInterface, error)
-// getMember(name string) (MemberInterface, error)
-// indexOf(member MemberInterface) (int, error)
-// length() int
-
 // newMemberList sorts the incoming list of names
 func testSortOnCreation(t *testing.T, ml memberListInterface) {
 	assert.Equal(t, "Abe Peters", ml.first().String())

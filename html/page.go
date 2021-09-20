@@ -9,7 +9,7 @@ import (
 	"github.com/Ben-harder/estate/household"
 )
 
-func MainPage(memberNames []string, chores []choreManager.ChoreInterface, household household.HouseholdInterface, writer io.Writer) {
+func MainPage(chores []choreManager.ChoreInterface, household household.HouseholdInterface, writer io.Writer) {
 	const tpl = `
 <!doctype html>
 <html lang="en">
@@ -44,7 +44,7 @@ func MainPage(memberNames []string, chores []choreManager.ChoreInterface, househ
 	  <div class="col">
 	    <div class="container">
 		  <h1>Chores</h1>
-		  <table class="table">
+		  <table class="table-responsive-lg">
 			<thead>
 				<tr>
 				<th scope="col">Schedule</th>
