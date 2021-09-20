@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/Ben-harder/estate/choreManager/chore"
 	"github.com/Ben-harder/estate/household"
 	"github.com/Ben-harder/estate/household/member"
 	"github.com/Ben-harder/estate/schedule"
@@ -12,7 +13,7 @@ import (
 func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterface {
 	log.Printf("creating new chore manager for household{%v}", household.String())
 	chrManager := &choreManager{
-		currentChores: make(map[string]ChoreInterface, 0),
+		currentChores: make(map[string]chore.ChoreInterface, 0),
 		schedules:     make([]schedule.ScheduleInterface, 0),
 		household:     household,
 	}
@@ -21,7 +22,7 @@ func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterfa
 
 type ChoreManagerInterface interface {
 	AddSchedule(schedule schedule.ScheduleInterface, turnList [][]member.MemberInterface, whoStarts int)
-	Chores() []ChoreInterface
+	Chores() []chore.ChoreInterface
 	Schedules() []string
 	DefaultTurnList() [][]member.MemberInterface
 	CustomTurnList(listsOfNames ...[]string) ([][]member.MemberInterface, error)
@@ -30,7 +31,7 @@ type ChoreManagerInterface interface {
 }
 
 type choreManager struct {
-	currentChores map[string]ChoreInterface
+	currentChores map[string]chore.ChoreInterface
 	schedules     []schedule.ScheduleInterface
 	household     household.HouseholdInterface
 }
@@ -70,8 +71,8 @@ func (chrManager *choreManager) CustomTurnList(listsOfNames ...[]string) ([][]me
 }
 
 // Chores returns the current chores as strings
-func (chrManager *choreManager) Chores() []ChoreInterface {
-	chores := make([]ChoreInterface, 0)
+func (chrManager *choreManager) Chores() []chore.ChoreInterface {
+	chores := make([]chore.ChoreInterface, 0)
 	for _, chore := range chrManager.currentChores {
 		chores = append(chores, chore)
 	}
@@ -85,7 +86,7 @@ func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface,
 	responsibilities, date := schedule.NextJob()
 
 	// Create the chore that will correspond to this schedule
-	chore := NewChore(schedule.Name(), responsibilities, date, turnList)
+	chore := chore.NewChore(schedule.Name(), responsibilities, date, turnList)
 	chore.SetTurn(whoStarts)
 	log.Printf("initialized chore: schedule{%v}, chore{%v, %v, %v}", schedule.Name(), chore.Responsibilities(), chore.Date(), chore.WhoseTurn())
 	chrManager.currentChores[schedule.Name()] = chore

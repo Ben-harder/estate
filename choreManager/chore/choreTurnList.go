@@ -1,4 +1,4 @@
-package choreManager
+package chore
 
 import (
 	"fmt"

@@ -5,11 +5,11 @@ import (
 	"io"
 	"log"
 
-	"github.com/Ben-harder/estate/choreManager"
+	"github.com/Ben-harder/estate/choreManager/chore"
 	"github.com/Ben-harder/estate/household"
 )
 
-func MainPage(chores []choreManager.ChoreInterface, household household.HouseholdInterface, writer io.Writer) {
+func MainPage(chores []chore.ChoreInterface, household household.HouseholdInterface, writer io.Writer) {
 	const tpl = `
 <!doctype html>
 <html lang="en">
@@ -85,7 +85,7 @@ func MainPage(chores []choreManager.ChoreInterface, household household.Househol
 		Title       string
 		Header      string
 		MemberNames string
-		Chores      []choreManager.ChoreInterface
+		Chores      []chore.ChoreInterface
 	}{
 		Title:       "Wonderful Estate",
 		Header:      "The Estate Chore Manager",
