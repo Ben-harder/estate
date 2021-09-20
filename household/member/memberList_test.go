@@ -1,4 +1,4 @@
-package memberList
+package member
 
 import (
 	"testing"
@@ -7,11 +7,11 @@ import (
 )
 
 // newMemberList sorts the incoming list of names
-func testSortOnCreation(t *testing.T, ml MemberListInterface) {
+func testSortOnCreation(t *testing.T, ml ListInterface) {
 	assert.Equal(t, "Abe Peters", ml.first().String())
 }
 
-func testGetMember(t *testing.T, ml MemberListInterface) {
+func testGetMember(t *testing.T, ml ListInterface) {
 	_, err := ml.GetMember("Doesn't Exist")
 	assert.Error(t, err)
 	m, err := ml.GetMember("Maggie Karl")
@@ -21,7 +21,7 @@ func testGetMember(t *testing.T, ml MemberListInterface) {
 
 func TestMemberList(t *testing.T) {
 	// <setup code>
-	ml := NewMemberList([]string{"John Doe", "Maggie Karl", "Abe Peters"})
+	ml := NewList([]string{"John Doe", "Maggie Karl", "Abe Peters"})
 	t.Run("Test member list creation", func(t *testing.T) {
 		testSortOnCreation(t, ml)
 	})

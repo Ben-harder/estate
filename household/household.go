@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/Ben-harder/estate/household/member"
-	"github.com/Ben-harder/estate/household/memberList"
 )
 
 func NewHousehold(memberNames []string) (HouseholdInterface, error) {
@@ -14,7 +13,7 @@ func NewHousehold(memberNames []string) (HouseholdInterface, error) {
 	}
 
 	log.Println("Created new household with members: ", memberNames)
-	return &household{members: memberList.NewMemberList(memberNames)}, nil
+	return &household{members: member.NewList(memberNames)}, nil
 }
 
 type HouseholdInterface interface {
@@ -24,7 +23,7 @@ type HouseholdInterface interface {
 }
 
 type household struct {
-	members memberList.MemberListInterface
+	members member.ListInterface
 }
 
 // Members returns a copy of the household members
