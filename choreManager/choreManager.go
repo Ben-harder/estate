@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/Ben-harder/estate/household"
+	"github.com/Ben-harder/estate/household/member"
 	"github.com/Ben-harder/estate/schedule"
 )
 
@@ -19,11 +20,11 @@ func NewChoreManager(household household.HouseholdInterface) ChoreManagerInterfa
 }
 
 type ChoreManagerInterface interface {
-	AddSchedule(schedule schedule.ScheduleInterface, turnList [][]household.MemberInterface, whoStarts int)
+	AddSchedule(schedule schedule.ScheduleInterface, turnList [][]member.MemberInterface, whoStarts int)
 	Chores() []ChoreInterface
 	Schedules() []string
-	DefaultTurnList() [][]household.MemberInterface
-	CustomTurnList(listsOfNames ...[]string) ([][]household.MemberInterface, error)
+	DefaultTurnList() [][]member.MemberInterface
+	CustomTurnList(listsOfNames ...[]string) ([][]member.MemberInterface, error)
 	SetTurnForSchedule(scheduleName string, memberName string) error
 	UpdateChoresIfOld()
 }
@@ -44,19 +45,19 @@ func (chrManager *choreManager) Schedules() []string {
 }
 
 // DefaultTurnList returns a slice of slices where each slice contains one household member
-func (chrManager *choreManager) DefaultTurnList() [][]household.MemberInterface {
-	defaultTurnList := make([][]household.MemberInterface, 0)
-	for _, member := range chrManager.household.Members() {
-		defaultTurnList = append(defaultTurnList, []household.MemberInterface{member})
+func (chrManager *choreManager) DefaultTurnList() [][]member.MemberInterface {
+	defaultTurnList := make([][]member.MemberInterface, 0)
+	for _, m := range chrManager.household.Members() {
+		defaultTurnList = append(defaultTurnList, []member.MemberInterface{m})
 	}
 	return defaultTurnList
 }
 
 // CustomTurnList takes sublists of names and returns a 2D slice containing those lists as members
-func (chrManager *choreManager) CustomTurnList(listsOfNames ...[]string) ([][]household.MemberInterface, error) {
-	customTurnList := make([][]household.MemberInterface, len(listsOfNames))
+func (chrManager *choreManager) CustomTurnList(listsOfNames ...[]string) ([][]member.MemberInterface, error) {
+	customTurnList := make([][]member.MemberInterface, len(listsOfNames))
 	for i, listOfNames := range listsOfNames {
-		customTurnList[i] = make([]household.MemberInterface, 0)
+		customTurnList[i] = make([]member.MemberInterface, 0)
 		for _, name := range listOfNames {
 			member, err := chrManager.household.GetHouseholdMember(name)
 			if err != nil {
@@ -78,7 +79,7 @@ func (chrManager *choreManager) Chores() []ChoreInterface {
 }
 
 // AddSchedule adds the provided schedule to the chore manager and creates an accompanying chore for the next job
-func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface, turnList [][]household.MemberInterface, whoStarts int) {
+func (chrManager *choreManager) AddSchedule(schedule schedule.ScheduleInterface, turnList [][]member.MemberInterface, whoStarts int) {
 	log.Printf("adding new schedule to chore manager. Name: %v", schedule.Name())
 	chrManager.schedules = append(chrManager.schedules, schedule)
 	responsibilities, date := schedule.NextJob()
