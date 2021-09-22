@@ -1,4 +1,4 @@
-package household
+package member
 
 import (
 	"testing"
@@ -7,14 +7,14 @@ import (
 )
 
 func TestString(t *testing.T) {
-	n1 := newMember("Bob T. Johnson")
+	n1 := NewMember("Bob T. Johnson")
 	assert.Equal(t, n1.String(), "Bob Johnson")
-	n2 := newMember("Donald")
+	n2 := NewMember("Donald")
 	assert.Equal(t, "Donald", n2.String())
 }
 
 func TestEquals(t *testing.T) {
-	n1 := newMember("John Doe")
-	n2 := newMember("John A. Doe")
+	n1 := NewMember("John Doe")
+	n2 := NewMember("John A. Doe")
 	assert.True(t, n1.Equals(n2))
 }

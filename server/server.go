@@ -58,5 +58,5 @@ func (svr *householdServer) mainPageHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	html.MainPage(svr.household.MemberNames(), svr.choreManager.Chores(), svr.household, w)
+	html.MainPage(svr.choreManager.Chores(), svr.household, w)
 }

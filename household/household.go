@@ -3,6 +3,8 @@ package household
 import (
 	"fmt"
 	"log"
+
+	"github.com/Ben-harder/estate/household/member"
 )
 
 func NewHousehold(memberNames []string) (HouseholdInterface, error) {
@@ -11,29 +13,29 @@ func NewHousehold(memberNames []string) (HouseholdInterface, error) {
 	}
 
 	log.Println("Created new household with members: ", memberNames)
-	return &household{members: newMemberList(memberNames)}, nil
+	return &household{members: member.NewList(memberNames)}, nil
 }
 
 type HouseholdInterface interface {
-	Members() []MemberInterface
+	Members() []member.MemberInterface
 	String() string
-	GetHouseholdMember(name string) (MemberInterface, error)
+	GetHouseholdMember(name string) (member.MemberInterface, error)
 }
 
 type household struct {
-	members memberListInterface
+	members member.ListInterface
 }
 
 // Members returns a copy of the household members
-func (hHold *household) Members() []MemberInterface {
-	membersCopy := make([]MemberInterface, hHold.members.length())
-	copy(membersCopy, hHold.members.getMembers())
+func (hHold *household) Members() []member.MemberInterface {
+	membersCopy := make([]member.MemberInterface, hHold.members.Length())
+	copy(membersCopy, hHold.members.GetMembers())
 	return membersCopy
 }
 
 // GetHouseholdMember returns the household member who has the given name or an error if they don't exist
-func (hHold *household) GetHouseholdMember(name string) (MemberInterface, error) {
-	member, err := hHold.members.getMember(name)
+func (hHold *household) GetHouseholdMember(name string) (member.MemberInterface, error) {
+	member, err := hHold.members.GetMember(name)
 	if err != nil {
 		return nil, err
 	} else {
@@ -43,5 +45,5 @@ func (hHold *household) GetHouseholdMember(name string) (MemberInterface, error)
 
 // String converts the memberlist to a comma delimited list of names
 func (hHold *household) String() string {
-	return hHold.members.string()
+	return hHold.members.String()
 }

@@ -34,7 +34,7 @@ func (sch *customSchedule) populateJobs() {
 	currTime := sch.start
 	var i int = 0
 	for currTime.Before(endTime) {
-		job := &job{responsibilities: jobType(sch.responsibilities[i%len(sch.responsibilities)]), date: currTime}
+		job := &job{responsibilities: sch.responsibilities[i%len(sch.responsibilities)], date: currTime}
 		sch.jobs.PushBack(job)
 		currTime = currTime.AddDate(0, 0, sch.interval)
 	}

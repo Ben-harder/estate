@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Takes a path to an ICS file and returns a slice of jobs
 func parseICS(path string) ([]*job, error) {
 	f, err := os.Open(path)
 	if err != nil {
@@ -19,7 +20,7 @@ func parseICS(path string) ([]*job, error) {
 	scanner := bufio.NewScanner(f)
 	var (
 		date             time.Time
-		responsibilities jobType
+		responsibilities string
 	)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -29,9 +30,9 @@ func parseICS(path string) ([]*job, error) {
 		if strings.Contains(line, "SUMMARY:") {
 			unformattedResponsibilities := strings.Split(line, ":")[1]
 			if strings.Contains(unformattedResponsibilities, "Garbage") {
-				responsibilities = All
+				responsibilities = "Garbage/Recycling/Greenbin"
 			} else {
-				responsibilities = Partial
+				responsibilities = "Recycling/Greenbin"
 			}
 			jobs = append(jobs, &job{date: date, responsibilities: responsibilities})
 		}
@@ -39,6 +40,7 @@ func parseICS(path string) ([]*job, error) {
 	return jobs, nil
 }
 
+// Takes date as a string like YYYYMMDD and converts it to the respective time.Time
 func formatDate(unformattedDate string) time.Time {
 	trimmedDate := strings.TrimSpace(unformattedDate)
 	year := trimmedDate[0:4]

@@ -1,11 +1,11 @@
-package household
+package member
 
 import (
 	"strings"
 )
 
 // newMember creates a new household member. Note that only Firstname or Firstname Lastname formats are accepted. Any middle names or abreviations will be ignored.
-func newMember(name string) MemberInterface {
+func NewMember(name string) MemberInterface {
 	firstName, lastName := cleanName(name)
 	return &member{firstName: firstName, lastName: lastName}
 }

@@ -1,24 +1,24 @@
-package choreManager
+package chore
 
 import (
 	"strings"
 
-	"github.com/Ben-harder/estate/household"
+	"github.com/Ben-harder/estate/household/member"
 )
 
-func NewChore(scheduleName string, responsibilities string, date string, turnList [][]household.MemberInterface) ChoreInterface {
-	choreTurnList := NewChoreTurnList(turnList)
-	return &chore{scheduleName: scheduleName, responsibilities: responsibilities, date: date, choreTurnList: choreTurnList}
+func NewChore(scheduleName string, responsibilities string, date string, turnList [][]member.MemberInterface) ChoreInterface {
+	tl := NewChoreTurnList(turnList)
+	return &chore{scheduleName: scheduleName, responsibilities: responsibilities, date: date, turnList: tl}
 }
 
 type ChoreInterface interface {
 	String() string
-	WhoseTurn() []household.MemberInterface
+	WhoseTurn() []member.MemberInterface
 	Schedule() string
 	Responsibilities() string
 	Date() string
 	SetTurn(index int) error
-	SetTurnWithMember(member household.MemberInterface) error
+	SetTurnWithMember(member member.MemberInterface) error
 	SetResponsibilities(string)
 	SetDate(date string)
 	AdvanceToNextTurn()
@@ -27,20 +27,20 @@ type ChoreInterface interface {
 type chore struct {
 	date             string
 	responsibilities string
-	choreTurnList    choreTurnListInterface
+	turnList         turnListInterface
 	scheduleName     string
 }
 
 // String returns the string representation of a chore
 func (chr *chore) String() string {
-	whoseTurns := strings.Join(mapHouseholdToNames(chr.choreTurnList.whoseTurn()), ", ")
+	whoseTurns := strings.Join(mapHouseholdToNames(chr.turnList.whoseTurn()), ", ")
 	whoseTurns = strings.Trim(whoseTurns, ", ")
 	return "Responsibilities: " + chr.responsibilities + " | Date: " + chr.date + " | Whose turn: " + whoseTurns
 }
 
 // WhoseTurn returns the person responsible for this chore
-func (chr *chore) WhoseTurn() []household.MemberInterface {
-	return chr.choreTurnList.whoseTurn()
+func (chr *chore) WhoseTurn() []member.MemberInterface {
+	return chr.turnList.whoseTurn()
 }
 
 // Schedule returns the name of the schedule this chore is from
@@ -60,7 +60,7 @@ func (chr *chore) Date() string {
 
 // SetTurn will set who is responsible for the chore using an index
 func (chr *chore) SetTurn(index int) error {
-	err := chr.choreTurnList.setTurn(index)
+	err := chr.turnList.setTurn(index)
 	if err != nil {
 		return err
 	}
@@ -68,8 +68,8 @@ func (chr *chore) SetTurn(index int) error {
 }
 
 // SetTurnWithMember will search the turn list for the given member and set those person(s) to the current turn
-func (chr *chore) SetTurnWithMember(member household.MemberInterface) error {
-	err := chr.choreTurnList.setTurnWithMember(member)
+func (chr *chore) SetTurnWithMember(member member.MemberInterface) error {
+	err := chr.turnList.setTurnWithMember(member)
 	if err != nil {
 		return err
 	} else {
@@ -89,11 +89,11 @@ func (chr *chore) SetDate(date string) {
 
 // AdvanceToNextTurn will advance the chore to the next people in the turn list
 func (chr *chore) AdvanceToNextTurn() {
-	chr.choreTurnList.advanceToNext()
+	chr.turnList.advanceToNext()
 }
 
 // mapHouseholdToNames takes a list of member interfaces and converts it to a slice of their names
-func mapHouseholdToNames(members []household.MemberInterface) []string {
+func mapHouseholdToNames(members []member.MemberInterface) []string {
 	names := make([]string, 0)
 	for _, mem := range members {
 		names = append(names, mem.String())
