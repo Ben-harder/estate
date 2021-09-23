@@ -21,6 +21,9 @@ func MainPage(chores []chore.ChoreInterface, household household.HouseholdInterf
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
+	<style>
+		th, td { min-width: 200px; }
+	</style>
     <title>{{.Title}}</title>
   </head>
   <body>
@@ -44,27 +47,29 @@ func MainPage(chores []chore.ChoreInterface, household household.HouseholdInterf
 	  <div class="col">
 	    <div class="container">
 		  <h1>Chores</h1>
-		  <table class="table-responsive-lg">
-			<thead>
+		  <div class="table-responsive-xl">
+			<table class="table">
+				<thead>
+					<tr>
+					<th scope="col">Schedule</th>
+					<th scope="col">Responsibilities</th>
+					<th scope="col">Date</th>
+					<th scope="col">Whose Turn</th>
+					</tr>
+				</thead>
+				<tbody>
+				{{range .Chores}}
 				<tr>
-				<th scope="col">Schedule</th>
-				<th scope="col">Responsibilities</th>
-				<th scope="col">Date</th>
-				<th scope="col">Whose Turn</th>
+					<th scope="row">{{ .Schedule }}</th>
+					<td>{{ .Responsibilities }}</td>
+					<td>{{ .Date }}</td>
+					<td>{{ .WhoseTurn }}</td>
 				</tr>
-			</thead>
-			<tbody>
-			{{range .Chores}}
-			  <tr>
-				<th scope="row">{{ .Schedule }}</th>
-				<td>{{ .Responsibilities }}</td>
-				<td>{{ .Date }}</td>
-				<td>{{ .WhoseTurn }}</td>
-			  </tr>
-			{{end}}
-			</tbody>
-			</table>
-	    </div>
+				{{end}}
+				</tbody>
+			  </table>
+			</div>
+	      </div>
 	  </div>
 	</div>
   	</div>
