@@ -10,12 +10,12 @@ Classes must have a constructor with name `New<Obj>`, an interface with name `<o
 
 ### Example with a dog object
 ```
-func NewDog(name string, breed string) dogInterface {
+func NewDog(name string, breed string) DogInterface {
   return &dog{name: name, breed: breed)
 }
 
 type DogInterface interface {
-  bark()
+  Bark()
 }
 
 type dog struct {
@@ -23,7 +23,7 @@ type dog struct {
   breed string
 }
 
-func (d *dog) bark() {
+func (d *dog) Bark() {
   fmt.Println("ruff!")
 }
 ```
