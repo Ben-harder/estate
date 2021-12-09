@@ -115,7 +115,7 @@ func (chrManager *choreManager) UpdateChoresIfOld() {
 	log.Println("checking schedules for chore updates...")
 	for _, schedule := range chrManager.schedules {
 		chore := chrManager.currentChores[schedule.Name()]
-		if schedule.IsNextJobOld() {
+		for schedule.IsNextJobOld() {
 			schedule.RemoveNextJob()
 			responsibilities, date := schedule.NextJob()
 			chore.SetResponsibilities(responsibilities)

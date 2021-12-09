@@ -13,7 +13,6 @@ func NewCustomSchedule(name string, start time.Time, months int, interval int, r
 	sch.name = name
 	sch.jobs = list.New()
 	sch.populateJobs()
-	sch.deletePassedJobs()
 	return sch
 }
 

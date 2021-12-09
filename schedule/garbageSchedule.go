@@ -11,7 +11,6 @@ func NewGarbageSchedule(name string, pathToSchedule string) (ScheduleInterface, 
 	if err != nil {
 		return nil, err
 	}
-	sch.deletePassedJobs()
 	return sch, nil
 }
 
