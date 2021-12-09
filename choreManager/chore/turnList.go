@@ -26,7 +26,7 @@ type turnList struct {
 
 // advanceToNext will increment one to the index for the turn list
 func (chrTurnList *turnList) advanceToNext() {
-	chrTurnList.index = chrTurnList.index + 1%len(chrTurnList.turnTeams)
+	chrTurnList.index = (chrTurnList.index + 1) % len(chrTurnList.turnTeams)
 }
 
 func (chrTurnList *turnList) whoseTurn() []member.MemberInterface {
