@@ -21,25 +21,28 @@ func main() {
 		log.Fatal("failed to create household. err: ", err)
 	}
 
-	garbageSchedule, err := schedule.NewGarbageSchedule("Garbage Schedule", "schedule/schedule.ics")
+	garbageSchedule, err := schedule.NewGarbageSchedule("Garbage", "schedule/schedule.ics")
 	if err != nil {
 		log.Fatal(err)
 	}
 	choreManager := choreManager.NewChoreManager(theEstate)
 	turnList := choreManager.DefaultTurnList()
 	choreManager.AddSchedule(garbageSchedule, turnList, 0)
-	err = choreManager.SetTurnForSchedule("Garbage Schedule", "Andrew Wright")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	houseCleanTurns, err := choreManager.CustomTurnList([]string{"Andrew Wright", "Ben Harder"}, []string{"Georgia Stel", "David Gray"}, []string{"Natalia Johnston", "Dominick Laroche"})
-	if err != nil {
-		log.Fatal(err)
-	}
 	start := time.Date(2021, 9, 1, 0, 0, 0, 0, time.UTC)
-	houseCleanSchedule := schedule.NewCustomSchedule("House Cleaning Schedule", start, 12, 14, []string{"Clean the house common areas"})
-	choreManager.AddSchedule(houseCleanSchedule, houseCleanTurns, 0)
+
+	mainFloorSchedule := schedule.NewCustomSchedule("Main Floor", start, 12, 7, []string{"Vacuum or sweep the main floor excluding the entry, kitchen, and dining room"})
+	choreManager.AddSchedule(mainFloorSchedule, choreManager.DefaultTurnList(), 0)
+	entrySchedule := schedule.NewCustomSchedule("Entry", start, 12, 7, []string{"Sweep the entry and put away the shoes"})
+	choreManager.AddSchedule(entrySchedule, choreManager.DefaultTurnList(), 1)
+	kitchenSchedule := schedule.NewCustomSchedule("Kitchen", start, 12, 7, []string{"Wipe down counters, stove, and table; clean the sink; vacuum / sweep the floor"})
+	choreManager.AddSchedule(kitchenSchedule, choreManager.DefaultTurnList(), 2)
+	ragsSchedule := schedule.NewCustomSchedule("Rags", start, 12, 7, []string{"Wash and fold the kitchen rags"})
+	choreManager.AddSchedule(ragsSchedule, choreManager.DefaultTurnList(), 3)
+	upstairsSchedule := schedule.NewCustomSchedule("Upstairs", start, 12, 7, []string{"Vacuum or sweep, clean the table"})
+	choreManager.AddSchedule(upstairsSchedule, choreManager.DefaultTurnList(), 4)
+	downstairsSchedule := schedule.NewCustomSchedule("Downstairs", start, 12, 14, []string{"Vacuum or sweep"})
+	choreManager.AddSchedule(downstairsSchedule, choreManager.DefaultTurnList(), 5)
+	choreManager.UpdateChoresIfOld()
 	svr := server.NewHouseholdServer(80, choreManager, theEstate)
 	svr.ListenAndServe()
 
