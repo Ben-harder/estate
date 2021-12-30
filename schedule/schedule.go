@@ -42,10 +42,10 @@ func (sch *schedule) nextJob() *job {
 
 func (sch *schedule) IsNextJobOld() bool {
 	now := time.Now()
-	nowDay := now.YearDay()
-	nextJob := sch.nextJob()
-	nextJobDay := nextJob.date.YearDay()
-	if nowDay > nextJobDay {
+	nowDay := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	nextJobTime := sch.nextJob().date
+	nextJobDay := time.Date(nextJobTime.Year(), nextJobTime.Month(), nextJobTime.Day(), 0, 0, 0, 0, nextJobTime.Location())
+	if nextJobDay.Before(nowDay) {
 		return true
 	}
 	return false
