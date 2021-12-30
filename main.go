@@ -27,7 +27,7 @@ func main() {
 	}
 	choreManager := choreManager.NewChoreManager(theEstate)
 	turnList := choreManager.DefaultTurnList()
-	choreManager.AddSchedule(garbageSchedule, turnList, 0)
+	choreManager.AddSchedule(garbageSchedule, turnList, 1)
 	start := time.Date(2021, 9, 1, 0, 0, 0, 0, time.UTC)
 
 	mainFloorSchedule := schedule.NewCustomSchedule("Main Floor", start, 12, 7, []string{"Vacuum or sweep the main floor excluding the entry, kitchen, and dining room"})
@@ -40,7 +40,7 @@ func main() {
 	choreManager.AddSchedule(ragsSchedule, choreManager.DefaultTurnList(), 3)
 	upstairsSchedule := schedule.NewCustomSchedule("Upstairs", start, 12, 7, []string{"Vacuum or sweep, clean the table"})
 	choreManager.AddSchedule(upstairsSchedule, choreManager.DefaultTurnList(), 4)
-	downstairsSchedule := schedule.NewCustomSchedule("Downstairs", start, 12, 14, []string{"Vacuum or sweep"})
+	downstairsSchedule := schedule.NewCustomSchedule("Downstairs", start, 12, 7, []string{"Vacuum or sweep"})
 	choreManager.AddSchedule(downstairsSchedule, choreManager.DefaultTurnList(), 5)
 	choreManager.UpdateChoresIfOld()
 	svr := server.NewHouseholdServer(80, choreManager, theEstate)
