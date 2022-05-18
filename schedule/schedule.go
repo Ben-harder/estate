@@ -51,21 +51,6 @@ func (sch *schedule) IsNextJobOld() bool {
 	return false
 }
 
-func (sch *schedule) deletePassedJobs() {
-	oldJobsExist := true
-	now := time.Now()
-	nowDay := now.YearDay()
-	for oldJobsExist {
-		nextJob := sch.nextJob()
-		nextJobDay := nextJob.date.YearDay()
-		if nowDay > nextJobDay {
-			sch.RemoveNextJob()
-		} else {
-			oldJobsExist = false
-		}
-	}
-}
-
 func (sch *schedule) RemoveNextJob() {
 	nextJob := sch.nextJob()
 	log.Printf("removing job{%v, %v}", nextJob.responsibilities, nextJob.date.String())
