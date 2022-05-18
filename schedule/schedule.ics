@@ -446,4 +446,262 @@ DTSTART;VALUE=DATE:20220504
 SUMMARY:Green bin
 UID:2022-05-04-Vancouver-waste-@recollect.net
 END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220504
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-05-04-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220511
+SUMMARY:Green bin and recycling
+UID:2022-05-11-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220518
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-05-18-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220526
+SUMMARY:Green bin and recycling
+UID:2022-05-26-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220602
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-06-02-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220609
+SUMMARY:Green bin and recycling
+UID:2022-06-09-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220616
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-06-16-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220623
+SUMMARY:Green bin and recycling
+UID:2022-06-23-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220630
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-06-30-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220708
+SUMMARY:Green bin and recycling
+UID:2022-07-08-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220715
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-07-15-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220722
+SUMMARY:Green bin and recycling
+UID:2022-07-22-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220729
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-07-29-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220808
+SUMMARY:Green bin and recycling
+UID:2022-08-08-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220815
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-08-15-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220822
+SUMMARY:Green bin and recycling
+UID:2022-08-22-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage\, green bin\, and recycling
+DTSTART;VALUE=DATE:20220829
+SUMMARY:Garbage\, green bin\, and recycling
+UID:2022-08-29-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin and recycling
+DTSTART;VALUE=DATE:20220906
+SUMMARY:Green bin and recycling
+UID:2022-09-06-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20220913
+SUMMARY:Garbage and green bin
+UID:2022-09-13-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20220920
+SUMMARY:Green bin
+UID:2022-09-20-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20220927
+SUMMARY:Garbage and green bin
+UID:2022-09-27-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20221005
+SUMMARY:Green bin
+UID:2022-10-05-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20221013
+SUMMARY:Garbage and green bin
+UID:2022-10-13-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Municipal election
+DTSTART;VALUE=DATE:20221015
+SUMMARY:Municipal election
+UID:2022-10-15-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20221020
+SUMMARY:Green bin
+UID:2022-10-20-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20221027
+SUMMARY:Garbage and green bin
+UID:2022-10-27-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Leaf collection weekend
+DTSTART;VALUE=DATE:20221029
+SUMMARY:Leaf collection weekend
+UID:2022-10-29-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Leaf collection weekend
+DTSTART;VALUE=DATE:20221030
+SUMMARY:Leaf collection weekend
+UID:2022-10-30-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20221103
+SUMMARY:Green bin
+UID:2022-11-03-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20221110
+SUMMARY:Garbage and green bin
+UID:2022-11-10-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20221118
+SUMMARY:Green bin
+UID:2022-11-18-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Leaf collection weekend
+DTSTART;VALUE=DATE:20221119
+SUMMARY:Leaf collection weekend
+UID:2022-11-19-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Leaf collection weekend
+DTSTART;VALUE=DATE:20221120
+SUMMARY:Leaf collection weekend
+UID:2022-11-20-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20221125
+SUMMARY:Garbage and green bin
+UID:2022-11-25-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20221202
+SUMMARY:Green bin
+UID:2022-12-02-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20221209
+SUMMARY:Garbage and green bin
+UID:2022-12-09-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20221216
+SUMMARY:Green bin
+UID:2022-12-16-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Leaf collection weekend
+DTSTART;VALUE=DATE:20221217
+SUMMARY:Leaf collection weekend
+UID:2022-12-17-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Leaf collection weekend
+DTSTART;VALUE=DATE:20221218
+SUMMARY:Leaf collection weekend
+UID:2022-12-18-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Garbage and green bin
+DTSTART;VALUE=DATE:20221223
+SUMMARY:Garbage and green bin
+UID:2022-12-23-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Green bin
+DTSTART;VALUE=DATE:20230103
+SUMMARY:Green bin
+UID:2023-01-03-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Tree chipping - various locations
+DTSTART;VALUE=DATE:20230107
+SUMMARY:Tree chipping - various locations
+UID:2023-01-07-Vancouver-waste-@recollect.net
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Tree chipping - various locations
+DTSTART;VALUE=DATE:20230108
+SUMMARY:Tree chipping - various locations
+UID:2023-01-08-Vancouver-waste-@recollect.net
+END:VEVENT
 END:VCALENDAR
