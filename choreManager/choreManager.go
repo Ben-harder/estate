@@ -3,6 +3,7 @@ package choreManager
 import (
 	"fmt"
 	"log"
+	"sort"
 
 	"github.com/Ben-harder/estate/choreManager/chore"
 	"github.com/Ben-harder/estate/household"
@@ -70,12 +71,15 @@ func (chrManager *choreManager) CustomTurnList(listsOfNames ...[]string) ([][]me
 	return customTurnList, nil
 }
 
-// Chores returns the current chores as strings
+// Chores returns the current chores
 func (chrManager *choreManager) Chores() []chore.ChoreInterface {
 	chores := make([]chore.ChoreInterface, 0)
 	for _, chore := range chrManager.currentChores {
 		chores = append(chores, chore)
 	}
+	sort.Slice(chores, func(i, j int) bool {
+		return chores[i].String() > chores[j].String()
+	})
 	return chores
 }
 
